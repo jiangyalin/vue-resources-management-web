@@ -1,22 +1,18 @@
 import home from './home'
-import operateCenter from './operate-center'
-import financialCenter from './financial-center'
-import systemManagement from './system-management'
+import book from './book'
 import error from './../../components/error/404.vue'
 
 const platform = [
   {
     path: '/',
-    redirect: '/zh-cn/home/forwardNews/forwardNewsList'
+    redirect: '/zh-cn/home/home/home'
   },
   {
     path: '/:lang',
-    redirect: '/:lang/home/forwardNews/forwardNewsList'
+    redirect: '/:lang/home/home/home'
   },
   home,
-  operateCenter,
-  financialCenter,
-  systemManagement,
+  book,
   {
     path: '*',
     component: error

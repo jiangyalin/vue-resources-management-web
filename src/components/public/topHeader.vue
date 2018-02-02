@@ -35,7 +35,7 @@
     data () {
       return {
         userInfo: {
-          name: this.$cookie.get('user')
+          name: this.$cookie.get('userName')
         },
         activeIndex: '1',
         navData: [{
@@ -44,20 +44,10 @@
           path: '/home',
           index: '1'
         }, {
-          text: '运营中心',
-          name: 'operateCenter',
-          path: '/operateCenter',
+          text: '书籍',
+          name: 'book',
+          path: '/book',
           index: '2'
-        }, {
-          text: '财务中心',
-          name: 'financialCenter',
-          path: '/financialCenter',
-          index: '3'
-        }, {
-          text: '系统管理',
-          name: 'systemManagement',
-          path: '/systemManagement',
-          index: '4'
         }]
       }
     },
@@ -82,9 +72,9 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$cookie.delete('token')
+          this.$cookie.delete('userId')
           this.$cookie.delete('userType')
-          this.$cookie.delete('user')
+          this.$cookie.delete('userName')
           this.$router.push('/' + this.$route.params.lang + '/login')
 //          this.$message({
 //            type: 'success',

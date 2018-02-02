@@ -34,6 +34,7 @@
   import operateCenter from './nav/operateCenter'
   import financialCenter from './nav/financialCenter'
   import systemManagement from './nav/systemManagement'
+  import book from './nav/book'
   // 初始化激活
   const InitActive = vue => {
     let active = ''
@@ -107,6 +108,7 @@
       if (this.$route.path.indexOf('operateCenter') !== -1) nav = operateCenter
       if (this.$route.path.indexOf('financialCenter') !== -1) nav = financialCenter
       if (this.$route.path.indexOf('systemManagement') !== -1) nav = systemManagement
+      if (this.$route.path.indexOf('book') !== -1) nav = book
 
       const operateNav = nav.operate(this)
       const ownerNav = nav.owner(this)
@@ -128,6 +130,7 @@
         if (this.$route.path.indexOf('operateCenter') !== -1) nav = operateCenter
         if (this.$route.path.indexOf('financialCenter') !== -1) nav = financialCenter
         if (this.$route.path.indexOf('systemManagement') !== -1) nav = systemManagement
+        if (this.$route.path.indexOf('book') !== -1) nav = book
 
         const operateNav = nav.operate(this)
         const ownerNav = nav.owner(this)
