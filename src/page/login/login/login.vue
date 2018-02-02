@@ -56,7 +56,7 @@
     const login = new Promise((resolve, reject) => {
       vue.$http({
         method: 'post',
-        url: window.config.serverLogin + '/api/auth/login',
+        url: window.config.server + '/api/login',
         data: {
           username: vue.ruleForm.userName,
           password: vue.ruleForm.pwd
@@ -77,7 +77,10 @@
     const userInfo = new Promise((resolve, reject) => {
       vue.$http({
         method: 'get',
-        url: window.config.serverLogin + '/api/me',
+        url: window.config.server + '/api/me',
+        params: {
+          id: vue.$cookie.get('userId')
+        },
         headers: {
           'languageCode': vue.$route.params.lang,
           'Authorization': 'Bearer ' + vue.$cookie.get('token')
@@ -143,36 +146,38 @@
             const Login = LoginAccount(this)
 
             Login.then((resolve) => {
-              this.$cookie.set('token', resolve.data.token, 7)
+              if (resolve.data.code === '200') {
+                this.$cookie.set('userId', resolve.data.user.id, 7)
 
-              // 获取用户信息
-              const UserInfo = GetUserInfo(this)
+                // 获取用户信息
+                const UserInfo = GetUserInfo(this)
 
-              UserInfo.then((resolve) => {
-                if (resolve.data.userType === 'PLATFORM') { // 运营
-                  this.$cookie.set('userType', '0', 1)
-                  this.$cookie.set('user', resolve.data.username, 1)
-                }
-                if (resolve.data.userType === 'OPERATOR') { // 业主
-                  this.$cookie.set('userType', '1', 1)
-                  this.$cookie.set('user', resolve.data.username, 1)
-                }
-                window.setTimeout(() => {
-                  const userType = this.$cookie.get('userType') || '' // 用户类型
-                  const isOperateType = userType === '0' // 运营
-                  const isOwnerType = userType === '1' // 业主
-                  if (isOperateType) this.$router.addRoutes(platform)
-                  if (isOwnerType) this.$router.addRoutes(operator)
-                  this.$router.push('/')
-                }, 1000)
-              }).catch((reject) => {
-                window.publicFunction.error(reject, this)
-              })
+                UserInfo.then((resolve) => {
+                  if (resolve.data.code === '200') {
+                    this.$cookie.set('userName', resolve.data.user.name, 7)
+                    let type = resolve.data.user.type
+                    if (type === 'operate') this.$cookie.set('userType', '0', 7)
+                    if (type === 'owner') this.$cookie.set('userType', '1', 7)
+
+                    window.setTimeout(() => {
+                      const userType = this.$cookie.get('userType') || '' // 用户类型
+                      const isOperateType = userType === '0' // 运营
+                      const isOwnerType = userType === '1' // 业主
+                      if (isOperateType) this.$router.addRoutes(platform)
+                      if (isOwnerType) this.$router.addRoutes(operator)
+                      this.$router.push('/')
+                    }, 1)
+                  }
+                }).catch((reject) => {
+                  window.publicFunction.error(reject, this)
+                })
+              } else {
+                this.$message({
+                  type: 'error',
+                  message: '登录失败,账号或者密码错误请重试!'
+                })
+              }
             }).catch((reject) => {
-              this.$message({
-                type: 'error',
-                message: '登录失败账号或者密码错误请重试!'
-              })
               window.publicFunction.error(reject, this)
             })
           } else {
