@@ -9,43 +9,30 @@
         label-width="80px"
         size="mini"
         class="demo-ruleForm">
-        <el-form-item style="width: 50%;float: left;" label="渠道编号" prop="channelNumber">
-          <el-input v-model="ruleForm.channelNumber"></el-input>
+        <el-form-item style="width: 50%;float: left;" label="书籍名称" prop="bookName">
+          <el-input v-model="ruleForm.bookName"></el-input>
         </el-form-item>
-        <el-form-item style="width: 50%;float: left;" label="渠道名称" prop="channelName">
-          <el-input v-model="ruleForm.channelName"></el-input>
-        </el-form-item>
-        <el-form-item style="width: 50%;float: left;" label="渠道类型" prop="channelType">
-          <el-select style="width: 100%;" v-model="ruleForm.channelType">
+        <el-form-item style="width: 50%;float: left;" label="地区" prop="area">
+          <el-select style="width: 100%;" v-model="ruleForm.area">
             <el-option
-              v-for="item in channelTypeOptions"
+              v-for="item in areaOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item style="width: 50%;float: left;" label="联系电话" prop="contactNumber">
-          <el-input v-model="ruleForm.contactNumber"></el-input>
+        <el-form-item style="width: 50%;float: left;" label="发售时间" prop="releaseTime">
+          <el-date-picker
+            v-model="ruleForm.releaseTime"
+            type="date">
+          </el-date-picker>
         </el-form-item>
-        <el-form-item style="width: 50%;float: left;" label="E-mail" prop="email">
-          <el-input v-model="ruleForm.email"></el-input>
+        <el-form-item style="width: 50%;float: left;" label="作者" prop="author">
+          <el-input v-model="ruleForm.author"></el-input>
         </el-form-item>
-        <el-form-item style="width: 50%;float: left;" label="传真" prop="fax">
-          <el-input v-model="ruleForm.fax"></el-input>
-        </el-form-item>
-        <!--<el-form-item label="排序" prop="sort">-->
-        <!--<el-input v-model="ruleForm.sort" type="number"></el-input>-->
-        <!--</el-form-item>-->
-        <el-form-item style="width: 50%;float: left;" label="状态" prop="state">
-          <el-select style="width: 100%;" v-model="ruleForm.state">
-            <el-option
-              v-for="item in stateOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+        <el-form-item style="width: 50%;float: left;" label="插画师" prop="illustrator">
+          <el-input v-model="ruleForm.illustrator"></el-input>
         </el-form-item>
         <el-form-item style="width: 100%;float: left;" >
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -62,16 +49,8 @@
     const channel = new Promise((resolve, reject) => {
       vue.$http({
         method: 'post',
-        url: window.config.server + '/api/v1/channels',
-        data: {
-          code: vue.ruleForm.channelNumber,
-          name: vue.ruleForm.channelName,
-          type: vue.ruleForm.channelType,
-          mobile: vue.ruleForm.contactNumber,
-          fax: vue.ruleForm.fax,
-          email: vue.ruleForm.email,
-          status: vue.ruleForm.state
-        },
+        url: window.config.server + '/api/lightNovel/fiction',
+        data: vue.ruleForm,
         headers: {
           'languageCode': vue.$route.params.lang,
           'Authorization': 'Bearer ' + vue.$cookie.get('token')
@@ -92,58 +71,41 @@
           children: 'cities'
         },
         ruleForm: {
-          channelNumber: '', // 渠道编号
-          channelName: '', // 渠道名称
-          channelType: '0', // 渠道类型
-          contactNumber: '', // 联系电话
-          fax: '', // 传真
-          email: '', // 电子邮箱
-          sort: '', // 排序
-          state: '0' // 状态
+          bookName: '', // 书籍名称
+          area: '0', // 地区
+          releaseTime: this.$moment(), // 发售时间
+          author: '', // 作者
+          illustrator: '' // 插画师
         },
         rules: {
-          channelNumber: [
-            { required: true, message: '请输入渠道编号', trigger: 'blur' },
+          bookName: [
+            { required: true, message: '请输入书籍名称', trigger: 'blur' },
             { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' },
             { pattern: /\S+/, message: '不能全为空格' }
           ],
-          channelName: [
-            { required: true, message: '请输入渠道名称', trigger: 'blur' },
+          area: [
+            { required: true, message: '请选择地区', trigger: 'blur' }
+          ],
+          releaseTime: [
+            { required: true, message: '请输选择发售时间', trigger: 'blur' }
+          ],
+          author: [
+            { required: true, message: '请输入作者名称', trigger: 'blur' },
             { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' },
             { pattern: /\S+/, message: '不能全为空格' }
           ],
-          channelType: [
-            { required: true, message: '请选择渠道类型', trigger: 'blur' }
-          ],
-          contactNumber: [
-            { required: true, message: '请输入联系电话', trigger: 'blur' },
+          illustrator: [
+            { required: true, message: '请输入插画师名称', trigger: 'blur' },
             { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' },
             { pattern: /\S+/, message: '不能全为空格' }
-          ],
-          fax: [
-            { required: false, message: '请输入传真', trigger: 'blur' },
-            { pattern: /^(\d{3,4}-)?\d{7,8}$/, message: '传真格式错误', trigger: 'blur' },
-            { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' },
-            { pattern: /\S+/, message: '不能全为空格' }
-          ],
-          email: [
-            { required: true, message: '请输入E-mail', trigger: 'blur' },
-            { pattern: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/, message: 'E-mail格式错误', trigger: 'blur' },
-            { pattern: /\S+/, message: '不能全为空格' }
-          ],
-          sort: [
-            { required: true, message: '请输入排序值', trigger: 'blur' },
-            { pattern: /^[1-9]\d*|0$/, message: '排序必须为非负整数', trigger: 'blur' },
-            { min: 1, max: 30, message: '长度在 1 到 13 个字符', trigger: 'blur' },
-            { pattern: /\S+/, message: '不能全为空格' }
-          ],
-          state: [
-            { required: true, message: '请选择渠道类型', trigger: 'blur' }
           ]
         },
-        channelTypeOptions: [{
+        areaOptions: [{
           value: '0',
-          label: '国内渠道'
+          label: '日本'
+        }, {
+          value: '1',
+          label: '中国'
         }],
         stateOptions: [{
           value: '0',
@@ -193,5 +155,9 @@
   .m-odr{
     overflow: auto;
     padding: 30px 30px 0 0;
+  }
+
+  .el-date-editor.el-input, .el-date-editor.el-input__inner {
+    width: 100%;
   }
 </style>
