@@ -24,33 +24,37 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination class="m-page" small layout="prev, pager, next" :total="500"></el-pagination>
+    <el-pagination class="m-page" small layout="prev, pager, next" :total="formInline.total"></el-pagination>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   const List = (vue, response) => {
     let tableData = []
-    tableData = response.data.book.map((data) => {
+    tableData = response.data.content.map((data) => {
       return {
-        id: data.id,
+        id: data._id,
         bookName: data.bookName,
         author: data.author,
-        updateTime: data.updateTime
+        illustrator: data.illustrator,
+        releaseTime: vue.$moment(data.releaseTime).format('YYYY-MM-DD HH:mm')
       }
     })
     return {
-      tableData: tableData
+      tableData: tableData,
+      total: response.data.totalElements
     }
   }
-  // 获取渠道列表
+  // 获取轻小说列表
   const GetFictionList = vue => {
     const fiction = new Promise((resolve, reject) => {
       vue.$http({
         method: 'get',
         url: window.config.server + '/api/lightNovel/fiction',
         params: {
-          id: vue.$cookie.get('userId')
+          id: vue.$cookie.get('userId'),
+          pageNum: vue.formInline.currentPage - 1,
+          pageSize: vue.formInline.pageSize
         },
         headers: {
           'languageCode': vue.$route.params.lang,
@@ -70,7 +74,11 @@
         // 渲染筛选
         filter: {},
         // 筛选值
-        formInline: {},
+        formInline: {
+          total: 0,
+          pageSize: 10,
+          currentPage: 1
+        },
         // 渲染表格
         tableTile: [{
           key: '0',
@@ -82,8 +90,12 @@
           prop: 'author'
         }, {
           key: '2',
+          columnLabel: '插画师',
+          prop: 'illustrator'
+        }, {
+          key: '3',
           columnLabel: '更新时间',
-          prop: 'updateTime'
+          prop: 'releaseTime'
         }],
         // 列表数据
         tableData: [],
@@ -92,12 +104,13 @@
     },
     methods: {},
     created: function () {
-      // 获取渠道列表
+      // 获取轻小说列表
       const fictionList = GetFictionList(this)
 
       fictionList.then((resolve) => {
         const list = List(this, resolve)
         this.tableData = list.tableData
+        this.formInline.total = list.total
         this.loading = false
       }).catch((reject) => {
         window.publicFunction.error(reject, this)

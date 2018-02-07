@@ -131,7 +131,7 @@
                   showCancelButton: false,
                   type: 'success'
                 }).then(() => {
-                  this.$router.push('/' + this.$route.params.lang + '/operateCenter/channel/channelList')
+                  this.$router.push('/' + this.$route.params.lang + '/book/lightNovel/fictionList')
                 })
               }
             }).catch((reject) => {
