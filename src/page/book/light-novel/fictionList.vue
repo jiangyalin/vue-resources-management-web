@@ -16,8 +16,9 @@
         :key="item.key"
         :width="item.width"
         show-overflow-tooltip></el-table-column>
-      <el-table-column fixed="right" label="操作" width="140">
+      <el-table-column fixed="right" label="操作" width="180">
         <template slot-scope="scope">
+          <el-button type="text" size="small" @click="down(scope)">下载</el-button>
           <el-button type="text" size="small" @click="view(scope)">查看</el-button>
           <el-button type="text" size="small" @click="edit(scope)">编辑</el-button>
           <el-button type="text" size="small" @click="remove(scope)">删除</el-button>
@@ -31,18 +32,19 @@
 <script type="text/ecmascript-6">
   const List = (vue, response) => {
     let tableData = []
-    tableData = response.data.content.map((data) => {
+    tableData = response.data.data.content.map((data) => {
       return {
         id: data._id,
         bookName: data.bookName,
         author: data.author,
         illustrator: data.illustrator,
-        releaseTime: vue.$moment(data.releaseTime).format('YYYY-MM-DD HH:mm')
+        releaseTime: vue.$moment(data.releaseTime).format('YYYY-MM-DD HH:mm'),
+        file: window.config.server + data.file.path + data.file.name
       }
     })
     return {
       tableData: tableData,
-      total: response.data.totalElements
+      total: response.data.data.totalElements
     }
   }
   // 获取轻小说列表
@@ -99,10 +101,16 @@
         }],
         // 列表数据
         tableData: [],
-        loading: false
+        loading: true
       }
     },
-    methods: {},
+    methods: {
+      // 下载
+      down (row) {
+        const downPath = row.row.file
+        window.open(downPath)
+      }
+    },
     created: function () {
       // 获取轻小说列表
       const fictionList = GetFictionList(this)

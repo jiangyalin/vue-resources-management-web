@@ -9,10 +9,10 @@
         label-width="80px"
         size="mini"
         class="demo-ruleForm">
-        <el-form-item style="width: 50%;float: left;" label="书籍名称" prop="bookName">
+        <el-form-item class="s-wh-fl" label="书籍名称" prop="bookName">
           <el-input v-model="ruleForm.bookName"></el-input>
         </el-form-item>
-        <el-form-item style="width: 50%;float: left;" label="地区" prop="area">
+        <el-form-item class="s-wh-fl" label="地区" prop="area">
           <el-select style="width: 100%;" v-model="ruleForm.area">
             <el-option
               v-for="item in areaOptions"
@@ -22,28 +22,72 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item style="width: 50%;float: left;" label="发售时间" prop="releaseTime">
+        <el-form-item class="s-wh-fl" label="发售时间" prop="releaseTime">
           <el-date-picker
             v-model="ruleForm.releaseTime"
             type="date">
           </el-date-picker>
         </el-form-item>
-        <el-form-item style="width: 50%;float: left;" label="作者" prop="author">
+        <el-form-item class="s-wh-fl" label="作者" prop="author">
           <el-input v-model="ruleForm.author"></el-input>
         </el-form-item>
-        <el-form-item style="width: 50%;float: left;" label="插画师" prop="illustrator">
+        <el-form-item class="s-wh-fl" label="插画师" prop="illustrator">
           <el-input v-model="ruleForm.illustrator"></el-input>
         </el-form-item>
-        <el-form-item style="width: 100%;float: left;" >
+        <el-form-item class="s-wh-fl" label="文件">
+          <el-button @click="dialogFormVisible = true">{{ruleForm.files}}</el-button>
+        </el-form-item>
+        <el-form-item style="width: 100%;float: left;">
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </transition>
+    <el-dialog title="上传小说文件" :visible.sync="dialogFormVisible">
+      <el-upload
+        class="upload-demo"
+        :headers="headers"
+        :action="action"
+        :on-preview="handlePictureCardPreview"
+        :file-list="fileList"
+        :multiple="true"
+        :on-success="handleAvatarSuccess"
+        :on-error="handleError"
+        :limit="limit"
+        :on-remove="handleRemove">
+        <el-button
+          slot="trigger"
+          size="small"
+          type="primary">选取文件</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传txt文件，且不超过50M</div>
+      </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="dialogFormVisible = false">取消</el-button>
+        <el-button size="mini" type="primary" @click="dialogFormVisible = false">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  // 获取国家信息
+  const GetCountryAll = vue => {
+    const country = new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/basis/country',
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+    return country
+  }
   // 添加渠道
   const AddChannel = vue => {
     const channel = new Promise((resolve, reject) => {
@@ -75,7 +119,9 @@
           area: '0', // 地区
           releaseTime: this.$moment(), // 发售时间
           author: '', // 作者
-          illustrator: '' // 插画师
+          illustrator: '', // 插画师
+          files: '点击上传文件', // 文件
+          fileId: '' // 文件id
         },
         rules: {
           bookName: [
@@ -98,8 +144,21 @@
             { required: true, message: '请输入插画师名称', trigger: 'blur' },
             { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' },
             { pattern: /\S+/, message: '不能全为空格' }
+          ],
+          files: [
           ]
         },
+        fileList: [],
+        images: [],
+        headers: {
+          'languageCode': this.$route.params.lang,
+          'Authorization': 'Bearer ' + this.$cookie.get('token')
+        },
+        action: window.config.upload + '/api/upload',
+        dialogImageUrl: '',
+        dialogVisible: false,
+        dialogFormVisible: false,
+        limit: 1,
         areaOptions: [{
           value: '0',
           label: '日本'
@@ -114,10 +173,32 @@
           value: '1',
           label: '激活'
         }],
-        loading: false
+        loading: true
       }
     },
     methods: {
+      // 上传成功
+      handleAvatarSuccess (res, file, fileList) {
+        console.log('file', file)
+        this.ruleForm.fileId = file.response.data.id
+      },
+      // 上传失败
+      handleError (err, file, fileList) {
+        this.$message.error('网络错误')
+        console.log(err)
+      },
+      // 删除文件
+      handleRemove (file, fileList) {
+        console.log('file', file)
+      },
+      // 上传
+      handlePictureCardPreview (file) {
+        this.dialogImageUrl = file.url
+        this.dialogVisible = true
+      },
+      submitUpload () {
+
+      },
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -147,7 +228,23 @@
         this.$refs[formName].resetFields()
       }
     },
-    created: function () {}
+    created: function () {
+      // 获取所有国家
+      const Country = GetCountryAll(this)
+
+      Country.then((resolve) => {
+        let areaOptions = resolve.data.data.content.map(data => {
+          return {
+            value: data.id,
+            label: data.name
+          }
+        })
+        this.areaOptions = areaOptions
+        this.loading = false
+      }).catch((reject) => {
+        window.publicFunction.error(reject, this)
+      })
+    }
   }
 </script>
 
@@ -159,5 +256,10 @@
 
   .el-date-editor.el-input, .el-date-editor.el-input__inner {
     width: 100%;
+  }
+
+  .s-wh-fl{
+    width: 50%;
+    float: left;
   }
 </style>
