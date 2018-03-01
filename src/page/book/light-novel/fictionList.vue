@@ -70,6 +70,27 @@
     })
     return fiction
   }
+  // 删除轻小说
+  const DeleteFiction = (vue, id) => {
+    const fiction = new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'delete',
+        url: window.config.server + '/api/lightNovel/fiction',
+        params: {
+          id
+        },
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+    return fiction
+  }
   export default {
     data () {
       return {
@@ -109,6 +130,50 @@
       down (row) {
         const downPath = row.row.file
         window.open(downPath)
+      },
+      // 编辑
+      edit (row) {
+        const id = row.row.id
+        this.$router.push('/' + this.$route.params.lang + '/book/lightNovel/fictionList/fictionEdit/' + id)
+      },
+      // 删除
+      remove (row) {
+        const id = row.row.id
+        this.$confirm('此操作将删除该轻小说, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          const Fiction = DeleteFiction(this, id)
+
+          Fiction.then((resolve) => {
+            if (resolve.data.code === '200') {
+              this.loading = true
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+              // 获取轻小说列表
+              const fictionList = GetFictionList(this)
+
+              fictionList.then((resolve) => {
+                const list = List(this, resolve)
+                this.tableData = list.tableData
+                this.formInline.total = list.total
+                this.loading = false
+              }).catch((reject) => {
+                window.publicFunction.error(reject, this)
+              })
+            }
+          }).catch((reject) => {
+            window.publicFunction.error(reject, this)
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
       }
     },
     created: function () {

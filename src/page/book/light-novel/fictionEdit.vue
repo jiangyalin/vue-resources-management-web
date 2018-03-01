@@ -88,13 +88,37 @@
     })
     return country
   }
-  // 添加书籍
+  // 获取书籍详情
+  const GetFiction = vue => {
+    const fiction = new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/lightNovel/fictionInfo',
+        params: {
+          id: vue.$route.params.fictionId
+        },
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+    return fiction
+  }
+  // 添加渠道
   const AddFiction = vue => {
     const fiction = new Promise((resolve, reject) => {
       vue.$http({
         method: 'post',
-        url: window.config.server + '/api/lightNovel/fiction',
-        data: vue.ruleForm,
+        url: window.config.server + '/api/lightNovel/fictionInfo',
+        data: {
+          id: vue.$route.params.fictionId,
+          ...vue.ruleForm
+        },
         headers: {
           'languageCode': vue.$route.params.lang,
           'Authorization': 'Bearer ' + vue.$cookie.get('token')
@@ -246,6 +270,24 @@
         })
         this.areaOptions = areaOptions
         this.loading = false
+      }).catch((reject) => {
+        window.publicFunction.error(reject, this)
+      })
+
+      // 获取书籍详细信息
+      const Fiction = GetFiction(this)
+
+      Fiction.then((resolve) => {
+        const ruleForm = {
+          bookName: resolve.data.data.bookName,
+          area: resolve.data.data.area,
+          releaseTime: resolve.data.data.releaseTime,
+          author: resolve.data.data.author,
+          illustrator: resolve.data.data.illustrator,
+          files: '点击上传文件',
+          fileId: resolve.data.data.file
+        }
+        this.ruleForm = ruleForm
       }).catch((reject) => {
         window.publicFunction.error(reject, this)
       })

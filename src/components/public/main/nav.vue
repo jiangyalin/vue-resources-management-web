@@ -51,7 +51,7 @@
   // 计算面包屑导航
   const CalculateCrumb = vue => {
     let crumb = []
-    const node1 = systemManagement.node1
+    const node1 = vue.navIndex
     crumb.push(node1)
     let crumbActive = (nav, path) => {
       nav.forEach((result) => {
@@ -84,7 +84,8 @@
           active: '0',
           uniqueOpened: true
         },
-        navData: []
+        navData: [],
+        navIndex: {}
       }
     },
     components: {},
@@ -109,6 +110,8 @@
       if (this.$route.path.indexOf('financialCenter') !== -1) nav = financialCenter
       if (this.$route.path.indexOf('systemManagement') !== -1) nav = systemManagement
       if (this.$route.path.indexOf('book') !== -1) nav = book
+
+      this.navIndex = nav.node1
 
       const operateNav = nav.operate(this)
       const ownerNav = nav.owner(this)
