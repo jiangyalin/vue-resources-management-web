@@ -49,8 +49,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import platform from './../../../router/platform' // 运营
-  import operator from './../../../router/operator' // 业主
   // 用户登录
   const LoginAccount = vue => {
     const login = new Promise((resolve, reject) => {
@@ -155,18 +153,7 @@
                 UserInfo.then((resolve) => {
                   if (resolve.data.code === '200') {
                     this.$cookie.set('userName', resolve.data.user.name, 7)
-                    let type = resolve.data.user.type
-                    if (type === 'operate') this.$cookie.set('userType', '0', 7)
-                    if (type === 'owner') this.$cookie.set('userType', '1', 7)
-
-                    window.setTimeout(() => {
-                      const userType = this.$cookie.get('userType') || '' // 用户类型
-                      const isOperateType = userType === '0' // 运营
-                      const isOwnerType = userType === '1' // 业主
-                      if (isOperateType) this.$router.addRoutes(platform)
-                      if (isOwnerType) this.$router.addRoutes(operator)
-                      this.$router.push('/')
-                    }, 1)
+                    this.$router.push('/')
                   }
                 }).catch((reject) => {
                   window.publicFunction.error(reject, this)

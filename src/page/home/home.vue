@@ -1,19 +1,17 @@
 <template>
-  <div class="g-mn">
-    <router-view></router-view>
+  <div class="g-home-mn">
+    kkk
   </div>
 </template>
-
 <script type="text/ecmascript-6">
   export default {
-    name: 'app',
     data () {
       return {
       }
     },
-    components: {
-    },
     methods: {
+    },
+    created: function () {
     }
   }
 </script>

@@ -7,14 +7,6 @@ export default {
   children: [
     {
       path: '',
-      redirect: 'login/login'
-    },
-    {
-      path: 'login',
-      redirect: 'login/login'
-    },
-    {
-      path: 'login/login',
       component: login
     }
   ]

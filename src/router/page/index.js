@@ -1,22 +1,20 @@
 import home from './home'
-import book from './book'
 import error from './../../components/error/404.vue'
 
-const platform = [
+const operator = [
   {
     path: '/',
-    redirect: '/zh-cn/home/home/home'
+    redirect: '/zh-cn/home'
   },
   {
     path: '/:lang',
-    redirect: '/:lang/home/home/home'
+    redirect: '/:lang/home'
   },
   home,
-  book,
   {
     path: '*',
     component: error
   }
 ]
 
-export default platform
+export default operator
