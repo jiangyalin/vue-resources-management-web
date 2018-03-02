@@ -1,67 +1,21 @@
-.m-menu{
-  padding-bottom: 20px;
-}
-
-.m-page{
-  padding-top: 20px;
-  text-align: center;
-}
-
-.s-fr{
-  float: right;
-}
-
-.s-max-width-10{
-  max-width: 800px;
-}
-
-/*照片墙查看*/
-.u-img-view-none .el-upload--picture-card{
-  display: none;
-}
-
-.g-main .el-input--mini .el-input__inner{
-  height: 32px;
-}
-.g-main .el-input-number--mini .el-input-number__increase,.g-main .el-input-number--mini .el-input-number__decrease{
-  width: 32px;
-  height: 30px;
-  line-height: 30px;
-}
-.g-main .el-form-item--mini .el-form-item__label{
-  line-height: 32px;
-}
-.g-main .el-cascader__label{
-  line-height: 32px;
-}
-.g-main .el-form-item__label{
-  font-size: 13px !important;
-}
-
-
-/*原子样式组*/
-.s-fl{
-  float: left !important;
-}
-.s-wd-33{
-  width: 33.333% !important;
-}
-.s-wd-50{
-  width: 50% !important;
-}
-.s-wd-100{
-  width: 100% !important;
-}
-.s-ov-au{
-  overflow: auto;
-}
-.s-ma-fl-15{
-  margin-left: 15px !important;
-}
-.s-pa-fr-15{
-  padding-right: 15px !important;
-}
-.s-ma-fl-140{
-  margin-left: 140px;
-}
-
+html{height: 100%}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
+dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,input,button,textarea,p,blockquote,th,td,span{font-family:"微软雅黑";}
+body{font:12px/1 Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;}
+img{border:none;}
+em,strong{font-style:normal;font-weight:normal;}
+li{list-style:none;}
+table {border-collapse:collapse;border-spacing:0;}
+h1{font-size:18px;font-family:"微软雅黑";}
+h2{font-size:16px;font-family:"微软雅黑";}
+h3{font-size:14px;font-family:"微软雅黑";}
+h4, h5, h6{font-size:100%;font-family:"微软雅黑";}
+q:before,q:after{content:'';}/* 消除q前后的内容 */
+button,input,select,textarea{font-size:100%;}/* 使得表单元素在 ie 下能继承字体大小 */
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+address,cite,dfn,em,var,i{font-style:normal;color:inherit;line-height:inherit;} /* 将斜体扶正 */
+/*link */
+a{text-decoration:none;font-family:"微软雅黑";color:inherit;-webkit-tap-highlight-color: rgba(0,0,0,0);}
+a:hover{text-decoration:none;}
+input,button,textarea,select{outline:none;}/*清除元素轮廓*/
+input:-webkit-autofill{-webkit-box-shadow: 0 0 0 400px #fff inset;}

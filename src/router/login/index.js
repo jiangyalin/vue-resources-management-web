@@ -1,5 +1,5 @@
 import index from './../../components/login/index.vue'
-import login from './../../page/login/login/login.vue'
+import login from './../../page/login/login.vue'
 
 export default {
   path: '/:lang/login',

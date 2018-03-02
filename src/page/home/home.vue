@@ -9,6 +9,8 @@
       return {
       }
     },
+    components: {
+    },
     methods: {
     },
     created: function () {
