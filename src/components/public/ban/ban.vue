@@ -2,13 +2,36 @@
   <div class="m-box">
     <div class="u-bg"></div>
     <div class="u-bg-after" :style="uBgStyle"></div>
-    <ul class="u-list">
-      <li class="u-li">
-        <a class="u-a" href="javascript:void(0)">
-          <img class="u-img" src="./../../../assets/images/public/ban/ban-01.jpg">
-        </a>
-      </li>
-    </ul>
+    <div class="u-ban">
+      <ul class="u-list" ref="ban" :style="uBanStyle">
+        <li class="u-li">
+          <a class="u-a" href="javascript:void(0)">
+            <img class="u-img" src="./../../../assets/images/public/ban/ban-01.jpg">
+          </a>
+        </li>
+        <li class="u-li">
+          <a class="u-a" href="javascript:void(0)">
+            <img class="u-img" src="./../../../assets/images/public/ban/ban-01.jpg">
+          </a>
+        </li>
+        <li class="u-li">
+          <a class="u-a" href="javascript:void(0)">
+            <img class="u-img" src="./../../../assets/images/public/ban/ban-01.jpg">
+          </a>
+        </li>
+        <li class="u-li">
+          <a class="u-a" href="javascript:void(0)">
+            <img class="u-img" src="./../../../assets/images/public/ban/ban-01.jpg">
+          </a>
+        </li>
+      </ul>
+      <ul class="u-tt" ref="banTt" :style="uBanStyle">
+        <li class="u-tt-li">初音未来2013魔法的未来演唱会</li>
+        <li class="u-tt-li">初音未来2013魔法的未来演唱会</li>
+        <li class="u-tt-li">初音未来2013魔法的未来演唱会</li>
+        <li class="u-tt-li">初音未来2013魔法的未来演唱会</li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -20,7 +43,9 @@
         clientWidth: 0,
         offsetLeft: 0,
         offsetTop: 0,
-        uBgStyle: {}
+        uBgStyle: {},
+        uBanStyle: {},
+        translateX: 0
       }
     },
     components: {},
@@ -39,6 +64,12 @@
     },
     mounted: function () {
       this.UBgStyle()
+      window.setInterval(() => {
+        this.translateX = this.translateX - 580 <= 4 * -580 ? 0 : this.translateX - 580
+        this.uBanStyle = {
+          transform: 'translateX(' + this.translateX + 'px)'
+        }
+      }, 10000)
     },
     created: function () {
     }
@@ -77,14 +108,23 @@
     -webkit-filter: blur(4px);
     filter: blur(4px);
   }
-  .u-list{
+  .u-ban{
+    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
-    padding: 10px;
-    width: 600px;
+    margin-left: 10px;
+    padding: 10px 0;
+    width: 580px;
     height: 100%;
     box-sizing: border-box;
+  }
+  .u-list{
+    width: 400%;
+    height: 100%;
+    box-sizing: border-box;
+    transform: translateX(0);
+    transition: .3s;
   }
   .u-li{
     float: left;
@@ -101,5 +141,24 @@
     width: 100%;
     height: 100%;
     border-radius: 5px;
+  }
+  .u-tt{
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 400%;
+    height: 35px;
+    background: -webkit-linear-gradient(transparent,rgba(0, 0, 0, .5));
+    box-sizing: border-box;
+    transform: translateX(0);
+    transition: .3s;
+  }
+  .u-tt-li{
+    float: left;
+    width: 580px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, .9);
+    line-height: 35px;
+    text-indent: 1em;
   }
 </style>
