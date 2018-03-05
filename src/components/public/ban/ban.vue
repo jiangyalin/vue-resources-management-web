@@ -4,32 +4,14 @@
     <div class="u-bg-after" :style="uBgStyle"></div>
     <div class="u-ban">
       <ul class="u-list" ref="ban" :style="uBanStyle">
-        <li class="u-li">
-          <a class="u-a" href="javascript:void(0)">
-            <img class="u-img" src="./../../../assets/images/public/ban/ban-01.jpg">
-          </a>
-        </li>
-        <li class="u-li">
-          <a class="u-a" href="javascript:void(0)">
-            <img class="u-img" src="./../../../assets/images/public/ban/ban-01.jpg">
-          </a>
-        </li>
-        <li class="u-li">
-          <a class="u-a" href="javascript:void(0)">
-            <img class="u-img" src="./../../../assets/images/public/ban/ban-01.jpg">
-          </a>
-        </li>
-        <li class="u-li">
-          <a class="u-a" href="javascript:void(0)">
-            <img class="u-img" src="./../../../assets/images/public/ban/ban-01.jpg">
+        <li class="u-li" v-for="data in banList">
+          <a class="u-a" :href="data.href">
+            <img class="u-img" :src="data.imgSrc">
           </a>
         </li>
       </ul>
       <ul class="u-tt" ref="banTt" :style="uBanStyle">
-        <li class="u-tt-li">初音未来2013魔法的未来演唱会</li>
-        <li class="u-tt-li">初音未来2013魔法的未来演唱会</li>
-        <li class="u-tt-li">初音未来2013魔法的未来演唱会</li>
-        <li class="u-tt-li">初音未来2013魔法的未来演唱会</li>
+        <li class="u-tt-li" v-for="data in banList">{{data.title}}</li>
       </ul>
     </div>
   </div>
@@ -45,7 +27,20 @@
         offsetTop: 0,
         uBgStyle: {},
         uBanStyle: {},
-        translateX: 0
+        translateX: 0,
+        banList: [{
+          title: '初音未来2013魔法的未来演唱会1',
+          href: 'javascript:void(0)',
+          imgSrc: 'http://localhost:8088/books/1520246271349.jpg'
+        }, {
+          title: '初音未来2013魔法的未来演唱会2',
+          href: 'javascript:void(0)',
+          imgSrc: 'http://localhost:8088/books/1520246285835.jpg'
+        }, {
+          title: '初音未来2013魔法的未来演唱会3',
+          href: 'javascript:void(0)',
+          imgSrc: 'http://localhost:8088/books/1520246296788.jpg'
+        }]
       }
     },
     components: {},
@@ -65,7 +60,7 @@
     mounted: function () {
       this.UBgStyle()
       window.setInterval(() => {
-        this.translateX = this.translateX - 580 <= 4 * -580 ? 0 : this.translateX - 580
+        this.translateX = this.translateX - 580 <= this.banList.length * -580 ? 0 : this.translateX - 580
         this.uBanStyle = {
           transform: 'translateX(' + this.translateX + 'px)'
         }

@@ -2,20 +2,8 @@
   <div class="m-box">
     <div class="u-bg"></div>
     <ul class="u-list">
-      <li class="u-li">
-        <a class="u-a" href="javascript:void(0)">首页</a>
-      </li>
-      <li class="u-li">
-        <a class="u-a" href="javascript:void(0)">动画</a>
-      </li>
-      <li class="u-li">
-        <a class="u-a" href="javascript:void(0)">漫画</a>
-      </li>
-      <li class="u-li">
-        <a class="u-a" href="javascript:void(0)">轻小说</a>
-      </li>
-      <li class="u-li">
-        <a class="u-a" href="javascript:void(0)">游戏</a>
+      <li class="u-li" v-for="data in navList">
+        <a class="u-a" href="javascript:void(0)" @click="toPath(data.path)">{{data.title}}</a>
       </li>
     </ul>
   </div>
@@ -25,10 +13,31 @@
   export default {
     name: '',
     data () {
-      return {}
+      return {
+        navList: [{
+          title: '首页',
+          path: '/'
+        }, {
+          title: '动画',
+          path: '/'
+        }, {
+          title: '漫画',
+          path: '/'
+        }, {
+          title: '轻小说',
+          path: '/lightNovel'
+        }, {
+          title: '游戏',
+          path: '/'
+        }]
+      }
     },
     components: {},
-    methods: {}
+    methods: {
+      toPath (path) {
+        this.$router.push('/' + this.$route.params.lang + path)
+      }
+    }
   }
 </script>
 
