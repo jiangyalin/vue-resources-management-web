@@ -13,7 +13,6 @@
   export default {
     data () {
       return {
-        clientWidth: 0,
         recommendList: [{
           href: 'javascript:void(0)',
           imgSrc: 'http://localhost:8088/books/1520240687659.png'
@@ -28,9 +27,6 @@
       recommend: Recommend
     },
     methods: {
-      CalculateImage () {
-        this.clientWidth = document.body.clientWidth
-      }
     },
     mounted: function () {
       window.onresize = () => {
