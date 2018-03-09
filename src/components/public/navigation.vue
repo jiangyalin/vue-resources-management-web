@@ -27,6 +27,9 @@
           title: '轻小说',
           path: '/lightNovel'
         }, {
+          title: '插画',
+          path: '/'
+        }, {
           title: '游戏',
           path: '/'
         }]

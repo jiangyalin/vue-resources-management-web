@@ -11,7 +11,7 @@
         <ul class="u-list">
           <li class="u-li" v-for="data in list">
             <div class="u-img-group">
-              <img class="u-img" src="./../../assets/images/public/user/user-01.jpg">
+              <img class="u-img" :src="data.imgSrc">
               <p class="u-update-time">{{data.updateTime}}</p>
             </div>
             <p class="u-book-tt">{{data.bookName}}</p>
@@ -24,6 +24,44 @@
 </template>
 
 <script type="text/ecmascript-6">
+  const List = (vue, response) => {
+    let tableData = []
+    tableData = response.data.data.content.map((data) => {
+      return {
+        id: data._id,
+        imgSrc: window.config.upload + data.cover.path + data.cover.name,
+        updateTime: '5天前更新至第4卷第3章',
+        bookName: data.bookName,
+        tips: data.introduction.replace(/\s+/g, '')
+      }
+    })
+    return {
+      tableData: tableData,
+      total: response.data.data.totalElements
+    }
+  }
+  // 获取轻小说列表
+  const GetFictionList = vue => {
+    const fiction = new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/lightNovel/fiction',
+        params: {
+          pageNum: 0,
+          pageSize: 10
+        },
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+    return fiction
+  }
   export default {
     name: 'bookList',
     data () {
@@ -32,57 +70,7 @@
         offsetLeft: 0,
         offsetTop: 0,
         uBgStyle: {},
-        list: [{
-          imgSrc: '',
-          updateTime: '5天前更新至第4卷第3章',
-          bookName: '魔法得禁书目录',
-          tips: '这是描述这是描述这是描述这是描述'
-        }, {
-          imgSrc: '',
-          updateTime: '5天前更新至第4卷第3章',
-          bookName: '魔法得禁书目录',
-          tips: '这是描述这是描述这是描述这是描述'
-        }, {
-          imgSrc: '',
-          updateTime: '5天前更新至第4卷第3章',
-          bookName: '魔法得禁书目录',
-          tips: '这是描述这是描述这是描述这是描述'
-        }, {
-          imgSrc: '',
-          updateTime: '5天前更新至第4卷第3章',
-          bookName: '魔法得禁书目录',
-          tips: '这是描述这是描述这是描述这是描述'
-        }, {
-          imgSrc: '',
-          updateTime: '5天前更新至第4卷第3章',
-          bookName: '魔法得禁书目录',
-          tips: '这是描述这是描述这是描述这是描述'
-        }, {
-          imgSrc: '',
-          updateTime: '5天前更新至第4卷第3章',
-          bookName: '魔法得禁书目录',
-          tips: '这是描述这是描述这是描述这是描述'
-        }, {
-          imgSrc: '',
-          updateTime: '5天前更新至第4卷第3章',
-          bookName: '魔法得禁书目录',
-          tips: '这是描述这是描述这是描述这是描述'
-        }, {
-          imgSrc: '',
-          updateTime: '5天前更新至第4卷第3章',
-          bookName: '魔法得禁书目录',
-          tips: '这是描述这是描述这是描述这是描述'
-        }, {
-          imgSrc: '',
-          updateTime: '5天前更新至第4卷第3章',
-          bookName: '魔法得禁书目录',
-          tips: '这是描述这是描述这是描述这是描述'
-        }, {
-          imgSrc: '',
-          updateTime: '5天前更新至第4卷第3章',
-          bookName: '魔法得禁书目录',
-          tips: '这是描述这是描述这是描述这是描述'
-        }]
+        list: []
       }
     },
     components: {},
@@ -103,6 +91,15 @@
       this.UBgStyle()
     },
     created: function () {
+      // 获取轻小说列表
+      const fictionList = GetFictionList(this)
+
+      fictionList.then((resolve) => {
+        const list = List(this, resolve)
+        this.list = list.tableData
+      }).catch((reject) => {
+        window.publicFunction.error(reject, this)
+      })
     }
   }
 </script>
@@ -189,6 +186,8 @@
     position: relative;
     width: 100%;
     height: 200px;
+    border: 1px solid rgba(255, 255, 255, .9);
+    box-sizing: border-box;
   }
   .u-img{
     display: block;
@@ -210,11 +209,14 @@
     box-sizing: border-box;
   }
   .u-book-tt{
+    overflow: hidden;
     padding-top: 4px;
     width: 100%;
     font-size: 14px;
     color: rgba(255, 255, 255, .9);
     line-height: 26px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .u-tips{
     overflow: hidden;
