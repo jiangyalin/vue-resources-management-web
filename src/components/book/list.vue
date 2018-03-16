@@ -10,7 +10,7 @@
       <div class="u-ct">
         <ul class="u-list">
           <li class="u-li" v-for="data in list">
-            <div class="u-img-group">
+            <div class="u-img-group" @click="to(data.id)">
               <img class="u-img" :src="data.imgSrc">
               <p class="u-update-time">{{data.updateTime}}</p>
             </div>
@@ -85,6 +85,11 @@
           backgroundSize: width + 'px',
           backgroundPosition: -offsetLeft + 'px -' + offsetTop + 'px'
         }
+      },
+      to (path) {
+//        this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
+        console.log(window.config.domainName + '#/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
+        window.open(window.config.domainName + '#/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
       }
     },
     mounted: function () {

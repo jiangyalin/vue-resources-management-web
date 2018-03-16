@@ -2,14 +2,11 @@
   <div class="m-box">
     <img class="u-img" src="./../../assets/images/public/user/user-01.jpg">
     <ul class="u-list">
-      <li class="u-li">
-        <a class="u-a" href="javascript:void(0)">消息</a>
+      <li class="u-li" v-for="data in nav">
+        <a class="u-a" href="javascript:void(0)">{{data.title}}</a>
       </li>
       <li class="u-li">
-        <a class="u-a" href="javascript:void(0)">收藏</a>
-      </li>
-      <li class="u-li">
-        <a class="u-a" href="javascript:void(0)">历史</a>
+        <a class="u-a" href="javascript:void(0)">皮肤</a>
       </li>
     </ul>
   </div>
@@ -19,7 +16,15 @@
   export default {
     name: 'navUser',
     data () {
-      return {}
+      return {
+        nav: [{
+          title: '消息'
+        }, {
+          title: '收藏'
+        }, {
+          title: '历史'
+        }]
+      }
     },
     components: {},
     methods: {}

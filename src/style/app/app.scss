@@ -1,0 +1,19 @@
+// 滚动条样式美化
+::-webkit-scrollbar{
+  width: 5px;
+  background-color: rgba(255, 255, 255, .0);
+}
+::-webkit-scrollbar-thumb{
+  width: 100%;
+  border-radius: 3px;
+  //background-color: rgba(119, 22, 37, 1);
+  background-color: rgba(255, 255, 255, .3);
+}
+::-webkit-scrollbar-track{
+  //background-color: rgba(38, 11, 15, 1);
+  background-color: rgba(119, 22, 37, 1);
+}
+
+::selection{
+  background-color: #ebb31f;
+}
