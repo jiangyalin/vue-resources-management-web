@@ -87,8 +87,6 @@
         }
       },
       to (path) {
-//        this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
-        console.log(window.config.domainName + '#/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
         window.open(window.config.domainName + '#/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
       }
     },

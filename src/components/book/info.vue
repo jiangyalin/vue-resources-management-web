@@ -5,21 +5,21 @@
     <div class="u-mn">
       <div class="u-tp">
         <div class="u-img-mn">
-          <img class="u-img">
+          <img class="u-img" :src="book.imgSrc">
         </div>
         <div class="u-info">
-          <h2 class="u-h2">某科学的超电磁炮</h2>
+          <h2 class="u-h2">{{book.name}}</h2>
           <div class="u-tips">
             <p class="u-tips-p">字数：<span class="u-sn">545</span>万</p>
-            <p class="u-tips-p">更新时间：<span class="u-sn">2015-05-05</span></p>
+            <p class="u-tips-p">更新时间：<span class="u-sn">{{book.updateTime}}</span></p>
           </div>
           <div class="u-author">
-            <p class="u-atr-p">作者：<span class="u-sn">镰池和马</span></p>
-            <p class="u-atr-p">插画师：<span class="u-sn">灰村清孝</span></p>
+            <p class="u-atr-p">作者：<span class="u-sn">{{book.author}}</span></p>
+            <p class="u-atr-p">插画师：<span class="u-sn">{{book.illustrator}}</span></p>
             <p class="u-atr-p">收藏数：<span class="u-sn">251</span></p>
             <p class="u-atr-p">下载数：<span class="u-sn">6651</span></p>
           </div>
-          <p class="u-introduction">故事讲述在将“超能力开发”作为学校课程的学园都市将“超能力开发”作为学校课程的学园都市将“超能力开发”作为学校课程的学园都市里，人们每天都在超能力开发上进行相互竞争。根据能力高低不同，可以分为6级，从无能力（level 0）到超能力（level 5）。主角上条当麻是一个无能力者，但并非完全没有能力，他的能力是能够将一切异能之力无效化……</p>
+          <p class="u-introduction">{{book.introduction}}</p>
           <div class="u-btn-mn">
             <button class="u-btn" type="button">开始阅读</button>
             <button class="u-btn" type="button">插画</button>
@@ -42,31 +42,14 @@
 </template>
 
 <script type="text/ecmascript-6">
-  const List = (vue, response) => {
-    let tableData = []
-    tableData = response.data.data.content.map((data) => {
-      return {
-        id: data._id,
-        imgSrc: window.config.upload + data.cover.path + data.cover.name,
-        updateTime: '5天前更新至第4卷第3章',
-        bookName: data.bookName,
-        tips: data.introduction.replace(/\s+/g, '')
-      }
-    })
-    return {
-      tableData: tableData,
-      total: response.data.data.totalElements
-    }
-  }
   // 获取轻小说列表
-  const GetFictionList = vue => {
+  const GetFiction = vue => {
     const fiction = new Promise((resolve, reject) => {
       vue.$http({
         method: 'get',
-        url: window.config.server + '/api/lightNovel/fiction',
+        url: window.config.server + '/api/lightNovel/fictionInfo',
         params: {
-          pageNum: 0,
-          pageSize: 10
+          id: vue.$route.params.lightNovelId
         },
         headers: {
           'languageCode': vue.$route.params.lang,
@@ -88,7 +71,14 @@
         offsetLeft: 0,
         offsetTop: 0,
         uBgStyle: {},
-        list: [],
+        book: {
+          name: '',
+          author: '',
+          illustrator: '',
+          introduction: '',
+          imgSrc: '',
+          updateTime: ''
+        },
         chartData: {
           columns: ['时间', '收藏数'], // 10-100
           rows: [{ '时间': '2016-01-01', '收藏数': 81 },
@@ -144,11 +134,17 @@
     },
     created: function () {
       // 获取轻小说列表
-      const fictionList = GetFictionList(this)
+      const Fiction = GetFiction(this)
 
-      fictionList.then((resolve) => {
-        const list = List(this, resolve)
-        this.list = list.tableData
+      Fiction.then((resolve) => {
+        this.book = {
+          name: resolve.data.data.bookName,
+          author: resolve.data.data.author,
+          illustrator: resolve.data.data.illustrator,
+          introduction: resolve.data.data.introduction.replace(/\s+/g, ''),
+          imgSrc: window.config.upload + resolve.data.data.cover.path + resolve.data.data.cover.name,
+          updateTime: this.$moment(resolve.data.data.updateTime).format('YYYY-MM-DD HH:mm')
+        }
       }).catch((reject) => {
         window.publicFunction.error(reject, this)
       })
@@ -245,15 +241,22 @@
     padding-right: 30px;
   }
   .u-introduction{
-    height: 90px;
+    overflow: hidden;
+    display: -webkit-box;
+    height: 72px;
     font-size: 12px;
     line-height: 18px;
+    text-indent: 2em;
     color: rgba(255, 255, 255, .8);
-    border-bottom: 1px solid rgba(255, 255, 255, .2);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
   }
   .u-btn-mn{
+    overflow: hidden;
+    margin-top: 18px;
     padding-top: 40px;
     width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, .2);
   }
   .u-btn{
     float: left;
