@@ -16,8 +16,8 @@
           <div class="u-author">
             <p class="u-atr-p">作者：<span class="u-sn">{{book.author}}</span></p>
             <p class="u-atr-p">插画师：<span class="u-sn">{{book.illustrator}}</span></p>
-            <p class="u-atr-p">收藏数：<span class="u-sn">251</span></p>
-            <p class="u-atr-p">下载数：<span class="u-sn">6651</span></p>
+            <p class="u-atr-p">收藏数：<span class="u-sn">{{book.collect}}</span></p>
+            <p class="u-atr-p">下载数：<span class="u-sn">{{book.down}}</span></p>
           </div>
           <p class="u-introduction">{{book.introduction}}</p>
           <div class="u-btn-mn">
@@ -44,7 +44,7 @@
 <script type="text/ecmascript-6">
   // 获取轻小说列表
   const GetFiction = vue => {
-    const fiction = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       vue.$http({
         method: 'get',
         url: window.config.server + '/api/lightNovel/fictionInfo',
@@ -61,7 +61,27 @@
         reject(error)
       })
     })
-    return fiction
+  }
+  // 获取轻小说统计
+  const GetStatistics = vue => {
+    return new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/basis/statistics',
+        params: {
+          id: vue.$route.params.lightNovelId,
+          type: 'book'
+        },
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
   }
   export default {
     name: 'bookList',
@@ -77,7 +97,9 @@
           illustrator: '',
           introduction: '',
           imgSrc: '',
-          updateTime: ''
+          updateTime: '',
+          collect: '',
+          down: ''
         },
         chartData: {
           columns: ['时间', '收藏数'], // 10-100
@@ -143,8 +165,20 @@
           illustrator: resolve.data.data.illustrator,
           introduction: resolve.data.data.introduction.replace(/\s+/g, ''),
           imgSrc: window.config.upload + resolve.data.data.cover.path + resolve.data.data.cover.name,
-          updateTime: this.$moment(resolve.data.data.updateTime).format('YYYY-MM-DD HH:mm')
+          updateTime: this.$moment(resolve.data.data.updateTime).format('YYYY-MM-DD HH:mm'),
+          collect: '',
+          down: ''
         }
+      }).catch((reject) => {
+        window.publicFunction.error(reject, this)
+      })
+
+      // 获取轻小说统计
+      const Statistics = GetStatistics(this)
+
+      Statistics.then((resolve) => {
+        this.book.collect = resolve.data.data.collect
+        this.book.down = resolve.data.data.down
       }).catch((reject) => {
         window.publicFunction.error(reject, this)
       })

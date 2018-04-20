@@ -18,6 +18,27 @@
 </template>
 
 <script type="text/ecmascript-6">
+  // 获取轻小说卷列表
+  const GetVolume = vue => {
+    return new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/lightNovel/chapter',
+        params: {
+          book: vue.$route.params.lightNovelId,
+          page: 0
+        },
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
   export default {
     name: 'chapter',
     data () {
@@ -123,6 +144,31 @@
       this.UBgStyle()
     },
     created: function () {
+      // 获取轻小说卷列表
+      const Volume = GetVolume(this)
+
+      Volume.then((resolve) => {
+        let sequence = -1
+        let index = -1
+        let list = []
+        resolve.data.data.content.forEach((data) => {
+          if (sequence !== data.volume.sequence) {
+            sequence = data.volume.sequence
+            index++
+            list.push({
+              title: '第' + this.$nzh.encodeS(data.volume.sequence) + '卷 ' + data.volume.name,
+              node: []
+            })
+          }
+          list[index].node.push({
+            title: '第' + this.$nzh.encodeS(data.sequence) + '章 ' + data.name
+          })
+          console.log('data', data)
+        })
+        this.list = list
+      }).catch((reject) => {
+        window.publicFunction.error(reject, this)
+      })
     }
   }
 </script>

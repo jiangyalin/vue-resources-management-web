@@ -1,5 +1,7 @@
+import ip from 'ip'
+
 export default {
-  server: 'http://localhost:8088',
-  upload: 'http://localhost:8088',
-  domainName: 'http://localhost:8080'
+  server: 'http://' + ip.address() + ':8088',
+  upload: 'http://' + ip.address() + ':8088',
+  domainName: 'http://' + ip.address() + ':8080'
 }

@@ -14,6 +14,7 @@ import publicFunction from './public'
 import moment from 'moment'
 import fullCalendar from 'vue-fullcalendar'
 import VueSession from 'vue-session'
+import nzh from 'nzh/cn'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
@@ -26,6 +27,7 @@ Vue.use(VueCookie)
 Vue.use(VueSession)
 Vue.use(ElementUI)
 Object.defineProperty(Vue.prototype, '$moment', { value: moment })
+Object.defineProperty(Vue.prototype, '$nzh', { value: nzh })
 
 Object.keys(locales).forEach(function (lang) {
   Vue.locale(lang, locales[lang])
