@@ -28,6 +28,46 @@
 </template>
 
 <script type="text/ecmascript-6">
+  // 获取轻小说列表
+  const GetAwesomeList = vue => {
+    return new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/lightNovel/awesome',
+        params: {
+          pageNum: 0,
+          pageSize: 10,
+          year: 2018
+        },
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
+  // 获取文件详情
+  const GetFile = (vue, id) => {
+    return new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/file/' + id,
+        params: {},
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
   export default {
     name: 'ad',
     data () {
@@ -36,79 +76,7 @@
         offsetLeft: 0,
         offsetTop: 0,
         uBgStyle: {},
-        list: [{
-          active: true,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }, {
-          active: false,
-          imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          name: '弱角色友崎君',
-          tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
-          pop: '镰池和马'
-        }]
+        list: []
       }
     },
     components: {},
@@ -137,6 +105,29 @@
       this.UBgStyle()
     },
     created: function () {
+      // 获取榜单列表
+      GetAwesomeList(this).then((resolve) => {
+        resolve.data.data.content.forEach(data => {
+          this.list.push({
+            active: false,
+            imgSrc: data.book.cover,
+            name: data.book.name,
+            tips: data.book.introduction.replace(/\s+/g, ''),
+            pop: data.book.author
+          })
+        })
+      }).then(() => {
+        this.list.forEach((data, index) => {
+          GetFile(this, data.imgSrc).then((resolve) => {
+            this.list[index].imgSrc = window.config.upload + resolve.data.data.path + resolve.data.data.name
+          }).catch((reject) => {
+            window.publicFunction.error(reject, this)
+          })
+        })
+        this.list[0].active = true
+      }).catch((reject) => {
+        window.publicFunction.error(reject, this)
+      })
     }
   }
 </script>

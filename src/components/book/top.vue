@@ -121,9 +121,7 @@
         return {}
       }).then(() => {
         this.list.forEach((data, index) => {
-          const file = GetFile(this, data.imgSrc)
-
-          file.then((resolve) => {
+          GetFile(this, data.imgSrc).then((resolve) => {
             this.list[index].imgSrc = window.config.upload + resolve.data.data.path + resolve.data.data.name
           }).catch((reject) => {
             window.publicFunction.error(reject, this)
