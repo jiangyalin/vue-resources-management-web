@@ -10,13 +10,13 @@
         <ul class="u-list">
           <li class="u-li" :class="{active: data.active}" v-for="(data, index) in list" @mouseover="hover($event, index)">
             <p class="u-idx" v-if="!data.active">{{index + 1}}</p>
-            <h4 class="u-h4" v-if="!data.active">{{data.bookName}}</h4>
+            <h4 class="u-h4" v-if="!data.active">{{data.name}}</h4>
             <p class="u-pop-s" v-if="!data.active">作者：<span>{{data.pop}}</span></p>
             <div class="u-img-gp" v-if="data.active">
               <img class="u-img" :src="data.imgSrc">
             </div>
             <div class="u-fr" v-if="data.active">
-              <h3 class="u-h3">{{data.bookName}}</h3>
+              <h3 class="u-h3">{{data.name}}</h3>
               <p class="u-tips">{{data.tips}}</p>
               <p class="u-pop">作者：<span>{{data.pop}}</span></p>
             </div>
@@ -39,73 +39,73 @@
         list: [{
           active: true,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }, {
           active: false,
           imgSrc: 'http://localhost:8088/images/1520582540521.png',
-          bookName: '弱角色友崎君',
+          name: '弱角色友崎君',
           tips: '人生是款粪作Game。这句随处可见的话语，很遗憾正是现实。而既然是由我这个日本数一数二的玩家所说的那就更不会错。',
           pop: '镰池和马'
         }]

@@ -10,13 +10,13 @@
         <ul class="u-list">
           <li class="u-li" :class="{active: data.active}" v-for="(data, index) in list" @mouseover="hover($event, index)">
             <p class="u-idx" v-if="!data.active">{{index + 1}}</p>
-            <h4 class="u-h4" v-if="!data.active">{{data.bookName}}</h4>
+            <h4 class="u-h4" v-if="!data.active">{{data.name}}</h4>
             <p class="u-pop-s" v-if="!data.active">人气：<span>{{data.pop}}</span></p>
             <div class="u-img-gp" v-if="data.active">
               <img class="u-img" :src="data.imgSrc">
             </div>
             <div class="u-fr" v-if="data.active">
-              <h3 class="u-h3">{{data.bookName}}</h3>
+              <h3 class="u-h3">{{data.name}}</h3>
               <p class="u-tips">{{data.tips}}</p>
               <p class="u-pop">人气：<span>{{data.pop}}</span></p>
             </div>
@@ -113,7 +113,7 @@
           return {
             active: false,
             imgSrc: data.book.cover,
-            bookName: data.book.bookName,
+            name: data.book.name,
             tips: data.book.introduction.replace(/\s+/g, ''),
             pop: data.click
           }

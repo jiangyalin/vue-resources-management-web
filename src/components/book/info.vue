@@ -160,7 +160,7 @@
 
       Fiction.then((resolve) => {
         this.book = {
-          name: resolve.data.data.bookName,
+          name: resolve.data.data.name,
           author: resolve.data.data.author,
           illustrator: resolve.data.data.illustrator,
           introduction: resolve.data.data.introduction.replace(/\s+/g, ''),

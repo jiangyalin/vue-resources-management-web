@@ -14,7 +14,7 @@
               <img class="u-img" :src="data.imgSrc">
               <p class="u-update-time">{{data.updateTime}}</p>
             </div>
-            <p class="u-book-tt">{{data.bookName}}</p>
+            <p class="u-book-tt">{{data.name}}</p>
             <p class="u-tips">{{data.tips}}</p>
           </li>
         </ul>
@@ -31,7 +31,7 @@
         id: data._id,
         imgSrc: window.config.upload + data.cover.path + data.cover.name,
         updateTime: '5天前更新至第4卷第3章',
-        bookName: data.bookName,
+        name: data.name,
         tips: data.introduction.replace(/\s+/g, '')
       }
     })
