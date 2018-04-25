@@ -67,7 +67,7 @@
     height: 100%;
     content: '';
     background-image: url("./../../assets/images/public/bg-03.png");
-    background-size: 100%;
+    background-size: 1920px;
     background-position: center -180px;
     background-repeat: no-repeat;
     -webkit-filter: blur(4px);

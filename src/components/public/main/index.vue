@@ -1,9 +1,9 @@
 <template>
   <div class="g-mn">
-    <topHeader></topHeader>
-    <navigation></navigation>
+    <topHeader :topHeader="topHeader"></topHeader>
+    <navigation v-if="navigation.state !== 'none'"></navigation>
     <div class="g-bd">
-      <router-view></router-view>
+      <router-view @SetTopHeader="setTopHeader" @SetNavigation="setNavigation"></router-view>
     </div>
   </div>
 </template>
@@ -13,6 +13,13 @@
   export default {
     data () {
       return {
+        topHeader: {
+          state: 'auto',
+          height: 170
+        },
+        navigation: {
+          state: 'auto'
+        }
       }
     },
     components: {
@@ -20,6 +27,12 @@
       navigation: Navigation
     },
     methods: {
+      setTopHeader (msg) {
+        this.topHeader = msg
+      },
+      setNavigation (msg) {
+        this.navigation = msg
+      }
     },
     created: function () {
     }
@@ -33,7 +46,7 @@
     height: 100%;
     min-height: 1400px;
     background-image: url("./../../../assets/images/public/bg-03.png");
-    background-size: 100%;
+    background-size: 1920px;
     background-position: center -10px;
     background-repeat: no-repeat;
   }

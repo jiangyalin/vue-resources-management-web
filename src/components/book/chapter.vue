@@ -8,7 +8,7 @@
           <h2 class="u-h2">{{data.title}}</h2>
           <ul class="u-list">
             <li class="u-li" v-for="node in data.node">
-              <p class="u-p">{{node.title}}</p>
+              <p class="u-p" @click="viewText(node.id)">{{node.title}}</p>
             </li>
           </ul>
         </li>
@@ -47,97 +47,23 @@
         offsetLeft: 0,
         offsetTop: 0,
         uBgStyle: {},
-        list: [{
-          title: '第一卷 听说游戏玩家兄妹要征服异世界',
-          node: [{
-            title: '序章'
-          }, {
-            title: '第一章 外行人'
-          }, {
-            title: '第二章 挑战者'
-          }, {
-            title: '第三章 老手'
-          }, {
-            title: '第四章 国王'
-          }, {
-            title: '终章'
-          }, {
-            title: '后记'
-          }, {
-            title: '插画'
-          }]
-        }, {
-          title: '第一卷 听说游戏玩家兄妹要征服异世界',
-          node: [{
-            title: '序章'
-          }, {
-            title: '第一章 外行人'
-          }, {
-            title: '第二章 挑战者'
-          }, {
-            title: '第三章 老手'
-          }, {
-            title: '第四章 国王'
-          }, {
-            title: '终章'
-          }, {
-            title: '后记'
-          }, {
-            title: '插画'
-          }]
-        }, {
-          title: '第一卷 听说游戏玩家兄妹要征服异世界',
-          node: [{
-            title: '序章'
-          }, {
-            title: '第一章 外行人'
-          }, {
-            title: '第二章 挑战者'
-          }, {
-            title: '第三章 老手'
-          }, {
-            title: '第四章 国王'
-          }, {
-            title: '终章'
-          }, {
-            title: '后记'
-          }, {
-            title: '插画'
-          }]
-        }, {
-          title: '第一卷 听说游戏玩家兄妹要征服异世界',
-          node: [{
-            title: '序章'
-          }, {
-            title: '第一章 外行人'
-          }, {
-            title: '第二章 挑战者'
-          }, {
-            title: '第三章 老手'
-          }, {
-            title: '第四章 国王'
-          }, {
-            title: '终章'
-          }, {
-            title: '后记'
-          }, {
-            title: '插画'
-          }]
-        }]
+        list: []
       }
     },
     components: {},
     methods: {
       UBgStyle () {
         this.clientWidth = document.body.clientWidth
-
-        const width = this.clientWidth > 1200 ? this.clientWidth : 1200
-        const offsetLeft = this.$el.offsetLeft ? this.$el.offsetLeft : 0
+        const width = 1920
+        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1200 - this.clientWidth) / 2
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
           backgroundPosition: -offsetLeft + 'px -' + offsetTop + 'px'
         }
+      },
+      viewText (id) {
+        this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + id)
       }
     },
     mounted: function () {
@@ -161,9 +87,9 @@
             })
           }
           list[index].node.push({
+            id: data._id,
             title: '第' + this.$nzh.encodeS(data.sequence) + '章 ' + data.name
           })
-          console.log('data', data)
         })
         this.list = list
       }).catch((reject) => {
@@ -199,7 +125,7 @@
     content: '';
     border-radius: 5px;
     background-image: url("./../../assets/images/public/bg-03.png");
-    background-size: 100%;
+    background-size: 1920px;
     background-position: 0 -255px;
     background-repeat: no-repeat;
     -webkit-filter: blur(4px);

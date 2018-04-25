@@ -1,7 +1,7 @@
 <template>
-  <div class="m-box">
+  <div class="m-box" :style="'height: ' + topHeader.height + 'px'">
     <topNav></topNav>
-    <div class="u-mn">
+    <div class="u-mn" v-if="topHeader.state !== 'mini'">
       <img class="u-logo" src="./../../assets/images/public/logo/logo-01.png">
       <search class="m-search"></search>
     </div>
@@ -14,20 +14,25 @@
   export default {
     name: 'topHeader',
     data () {
-      return {}
+      return {
+      }
     },
+    props: ['topHeader'],
     components: {
       topNav: TopNav,
       search: Search
     },
-    methods: {}
+    methods: {},
+    created: function () {
+    },
+    watch: {
+    }
   }
 </script>
 
 <style scoped>
   .m-box{
     width: 100%;
-    height: 170px;
   }
   .u-mn{
     display: flex;

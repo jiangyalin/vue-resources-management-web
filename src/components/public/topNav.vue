@@ -7,17 +7,8 @@
           <li class="u-li">
             <img class="u-img" src="../../assets/images/public/logo/miku-01.png">
           </li>
-          <li class="u-li">
-            <a class="u-a" href="javascript:void(0)">主站</a>
-          </li>
-          <li class="u-li">
-            <a class="u-a" href="javascript:void(0)">P站</a>
-          </li>
-          <li class="u-li">
-            <a class="u-a" href="javascript:void(0)">B站</a>
-          </li>
-          <li class="u-li">
-            <a class="u-a" href="javascript:void(0)">A站</a>
+          <li class="u-li" v-for="data in list">
+            <a class="u-a" href="javascript:void(0)" @click="to(data.path)">{{data.title}}</a>
           </li>
         </ul>
         <navUser></navUser>
@@ -32,12 +23,28 @@
     name: 'topNav',
     data () {
       return {
+        list: [{
+          title: '主站',
+          path: '/'
+        }, {
+          title: 'P站',
+          path: '/'
+        }, {
+          title: 'B站',
+          path: '/'
+        }, {
+          title: 'A站',
+          path: '/'
+        }]
       }
     },
     components: {
       navUser: NavUser
     },
     methods: {
+      to (path) {
+        this.$router.push(path)
+      }
     },
     created: function () {
     }
@@ -67,7 +74,7 @@
     height: 100%;
     content: '';
     background-image: url("./../../assets/images/public/bg-03.png");
-    background-size: 100%;
+    background-size: 1920px;
     background-position: center -10px;
     background-repeat: no-repeat;
     -webkit-filter: blur(4px);

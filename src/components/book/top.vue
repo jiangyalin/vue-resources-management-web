@@ -13,7 +13,7 @@
             <h4 class="u-h4" v-if="!data.active">{{data.name}}</h4>
             <p class="u-pop-s" v-if="!data.active">人气：<span>{{data.pop}}</span></p>
             <div class="u-img-gp" v-if="data.active">
-              <img class="u-img" :src="data.imgSrc">
+              <img class="u-img" :src="data.imgSrc" @click="to(data.id)">
             </div>
             <div class="u-fr" v-if="data.active">
               <h3 class="u-h3">{{data.name}}</h3>
@@ -35,7 +35,7 @@
         method: 'get',
         url: window.config.server + '/api/lightNovel/fictionTopList',
         params: {
-          size: 10,
+          size: 12,
           type: 'book',
           sort: 'click'
         },
@@ -83,9 +83,8 @@
     methods: {
       UBgStyle () {
         this.clientWidth = document.body.clientWidth
-
-        const width = this.clientWidth > 1200 ? this.clientWidth : 1200
-        const offsetLeft = this.$el.offsetLeft ? this.$el.offsetLeft : 0
+        const width = 1920
+        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1200 - this.clientWidth) / 2
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
@@ -99,6 +98,9 @@
             ...data
           }
         })
+      },
+      to (id) {
+        this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + id)
       }
     },
     mounted: function () {
@@ -111,6 +113,7 @@
       bookTop.then((resolve) => {
         this.list = resolve.data.data.content.map(data => {
           return {
+            id: data.book._id,
             active: false,
             imgSrc: data.book.cover,
             name: data.book.name,
@@ -161,7 +164,7 @@
     content: '';
     border-radius: 5px;
     background-image: url("./../../assets/images/public/bg-03.png");
-    background-size: 100%;
+    background-size: 1920px;
     background-position: 0 -255px;
     background-repeat: no-repeat;
     -webkit-filter: blur(4px);

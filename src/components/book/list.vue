@@ -62,6 +62,24 @@
     })
     return fiction
   }
+  // 纪录点击
+  const SetClickRecords = (vue, id) => {
+    return new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/basis/statistics/click/book/' + id,
+        params: {},
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
   export default {
     name: 'bookList',
     data () {
@@ -77,9 +95,8 @@
     methods: {
       UBgStyle () {
         this.clientWidth = document.body.clientWidth
-
-        const width = this.clientWidth > 1200 ? this.clientWidth : 1200
-        const offsetLeft = this.$el.offsetLeft ? this.$el.offsetLeft : 0
+        const width = 1920
+        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1200 - this.clientWidth) / 2
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
@@ -87,7 +104,10 @@
         }
       },
       to (path) {
-        window.open(window.config.domainName + '#/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
+//        window.open(window.config.domainName + '#/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
+        this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
+
+        SetClickRecords(this, path)
       }
     },
     mounted: function () {
@@ -133,7 +153,7 @@
     content: '';
     border-radius: 5px;
     background-image: url("./../../assets/images/public/bg-03.png");
-    background-size: 100%;
+    background-size: 1920px;
     background-position: 0 -255px;
     background-repeat: no-repeat;
     -webkit-filter: blur(4px);

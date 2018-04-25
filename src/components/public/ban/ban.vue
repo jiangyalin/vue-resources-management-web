@@ -47,9 +47,8 @@
     methods: {
       UBgStyle () {
         this.clientWidth = document.body.clientWidth
-
-        const width = this.clientWidth > 1200 ? this.clientWidth : 1200
-        const offsetLeft = this.$el.offsetLeft ? this.$el.offsetLeft : 0
+        const width = 1920
+        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1200 - this.clientWidth) / 2
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
@@ -97,7 +96,7 @@
     content: '';
     border-radius: 5px;
     background-image: url("./../../../assets/images/public/bg-03.png");
-    background-size: 100%;
+    background-size: 1920px;
     background-position: 0 -255px;
     background-repeat: no-repeat;
     -webkit-filter: blur(4px);

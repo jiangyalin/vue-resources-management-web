@@ -16,25 +16,21 @@
           <div class="u-author">
             <p class="u-atr-p">作者：<span class="u-sn">{{book.author}}</span></p>
             <p class="u-atr-p">插画师：<span class="u-sn">{{book.illustrator}}</span></p>
-            <p class="u-atr-p">收藏数：<span class="u-sn">{{book.collect}}</span></p>
-            <p class="u-atr-p">下载数：<span class="u-sn">{{book.down}}</span></p>
+            <p class="u-atr-p">点击量：<span class="u-sn">{{book.click}}</span></p>
+            <p class="u-atr-p">收藏量：<span class="u-sn">{{book.collect}}</span></p>
+            <p class="u-atr-p">下载量：<span class="u-sn">{{book.down}}</span></p>
           </div>
           <p class="u-introduction">{{book.introduction}}</p>
           <div class="u-btn-mn">
-            <button class="u-btn" type="button">开始阅读</button>
+            <button class="u-btn" type="button" @click="viewText">开始阅读</button>
             <button class="u-btn" type="button">插画</button>
-            <button class="u-btn" type="button">下载</button>
+            <button class="u-btn" type="button" @click="down">下载</button>
           </div>
         </div>
       </div>
       <div class="u-bt">
         <div class="u-line">
-          <ve-line
-            width="860px"
-            height="320px"
-            :data="chartData"
-            :legend-visible="false"
-            :settings="chartSettings"></ve-line>
+          <ve-line width="860px" height="320px" :data="chartData" :legend-visible="false" :settings="chartSettings"></ve-line>
         </div>
       </div>
     </div>
@@ -141,14 +137,19 @@
     methods: {
       UBgStyle () {
         this.clientWidth = document.body.clientWidth
-
-        const width = this.clientWidth > 1200 ? this.clientWidth : 1200
-        const offsetLeft = this.$el.offsetLeft ? this.$el.offsetLeft : 0
+        const width = 1920
+        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1200 - this.clientWidth) / 2
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
           backgroundPosition: -offsetLeft + 'px -' + offsetTop + 'px'
         }
+      },
+      down () {
+        window.open(window.config.upload + '/api/download/' + this.book.file, '_self')
+      },
+      viewText (id) {
+        this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + id)
       }
     },
     mounted: function () {
@@ -165,6 +166,7 @@
           illustrator: resolve.data.data.illustrator,
           introduction: resolve.data.data.introduction.replace(/\s+/g, ''),
           imgSrc: window.config.upload + resolve.data.data.cover.path + resolve.data.data.cover.name,
+          file: resolve.data.data.file,
           updateTime: this.$moment(resolve.data.data.updateTime).format('YYYY-MM-DD HH:mm'),
           collect: '',
           down: ''
@@ -179,6 +181,7 @@
       Statistics.then((resolve) => {
         this.book.collect = resolve.data.data.collect
         this.book.down = resolve.data.data.down
+        this.book.click = resolve.data.data.click
       }).catch((reject) => {
         window.publicFunction.error(reject, this)
       })
@@ -212,7 +215,7 @@
     content: '';
     border-radius: 5px;
     background-image: url("./../../assets/images/public/bg-03.png");
-    background-size: 100%;
+    background-size: 1920px;
     background-position: 0 -255px;
     background-repeat: no-repeat;
     -webkit-filter: blur(4px);
