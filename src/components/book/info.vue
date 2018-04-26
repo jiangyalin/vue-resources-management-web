@@ -58,6 +58,26 @@
       })
     })
   }
+  // 获取第一章
+  const GetChapterOne = vue => {
+    return new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/lightNovel/chapter/one',
+        params: {
+          book: vue.$route.params.lightNovelId
+        },
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
   // 获取轻小说统计
   const GetStatistics = vue => {
     return new Promise((resolve, reject) => {
@@ -97,6 +117,7 @@
           collect: '',
           down: ''
         },
+        chapterOne: '',
         chartData: {
           columns: ['时间', '收藏数'], // 10-100
           rows: [{ '时间': '2016-01-01', '收藏数': 81 },
@@ -148,8 +169,8 @@
       down () {
         window.open(window.config.upload + '/api/download/' + this.book.file, '_self')
       },
-      viewText (id) {
-        this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + id)
+      viewText () {
+        this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + this.chapterOne)
       },
       init () {
         this.book = {}
@@ -175,6 +196,13 @@
           this.book.collect = resolve.data.data.collect
           this.book.down = resolve.data.data.down
           this.book.click = resolve.data.data.click
+        }).catch((reject) => {
+          window.publicFunction.error(reject, this)
+        })
+
+        // 获取第一章
+        GetChapterOne(this).then((resolve) => {
+          this.chapterOne = resolve.data.data._id
         }).catch((reject) => {
           window.publicFunction.error(reject, this)
         })
