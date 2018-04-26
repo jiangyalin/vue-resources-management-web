@@ -35,14 +35,7 @@
         offsetLeft: 0,
         offsetTop: 0,
         uBgStyle: {},
-        chapter: {},
-        topHeader: {
-          state: 'mini',
-          height: 42
-        },
-        navigation: {
-          state: 'none'
-        }
+        chapter: {}
       }
     },
     components: {},
@@ -50,7 +43,7 @@
       UBgStyle () {
         this.clientWidth = document.body.clientWidth
         const width = 1920
-        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1200 - this.clientWidth) / 2
+        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1920 - 1200) / 2
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
@@ -67,8 +60,6 @@
       }
     },
     created: function () {
-      this.$emit('SetTopHeader', this.topHeader)
-      this.$emit('SetNavigation', this.navigation)
       // 获取章详细信息
       GetChapter(this).then((resolve) => {
         this.chapter = resolve.data.data.file.content

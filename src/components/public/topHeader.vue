@@ -1,7 +1,7 @@
 <template>
-  <div class="m-box" :style="'height: ' + topHeader.height + 'px'">
+  <div class="m-box" :style="'height: ' + header.height + 'px'">
     <topNav></topNav>
-    <div class="u-mn" v-if="topHeader.state !== 'mini'">
+    <div class="u-mn" v-if="header.state !== 'mini'">
       <img class="u-logo" src="./../../assets/images/public/logo/logo-01.png">
       <search class="m-search"></search>
     </div>
@@ -15,17 +15,43 @@
     name: 'topHeader',
     data () {
       return {
+        state: {
+          mini: []
+        },
+        header: {
+          state: 'auto',
+          height: 170
+        },
+        miniHeader: {
+          state: 'mini',
+          height: 42
+        },
+        initHeader: {
+          state: 'auto',
+          height: 170
+        }
       }
     },
-    props: ['topHeader'],
     components: {
       topNav: TopNav,
       search: Search
     },
-    methods: {},
+    methods: {
+      init () {
+        this.state.mini = ['/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + this.$route.params.chapterId]
+        this.header = this.initHeader
+        this.state.mini.forEach(data => {
+          if (this.$route.path === data) this.header = this.miniHeader
+        })
+      }
+    },
     created: function () {
+      this.init()
     },
     watch: {
+      $route () {
+        this.init()
+      }
     }
   }
 </script>

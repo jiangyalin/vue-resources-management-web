@@ -55,7 +55,7 @@
       UBgStyle () {
         this.clientWidth = document.body.clientWidth
         const width = 1920
-        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1200 - this.clientWidth) / 2
+        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1920 - 1200) / 2
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
@@ -64,37 +64,44 @@
       },
       viewText (id) {
         this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + id)
+      },
+      init () {
+        this.list = []
+        // 获取轻小说卷列表
+        GetVolume(this).then((resolve) => {
+          let sequence = -1
+          let index = -1
+          let list = []
+          resolve.data.data.content.forEach((data) => {
+            if (sequence !== data.volume.sequence) {
+              sequence = data.volume.sequence
+              index++
+              list.push({
+                title: '第' + this.$nzh.encodeS(data.volume.sequence) + '卷 ' + data.volume.name,
+                node: []
+              })
+            }
+            list[index].node.push({
+              id: data._id,
+              title: '第' + this.$nzh.encodeS(data.sequence) + '章 ' + data.name
+            })
+          })
+          this.list = list
+        }).catch((reject) => {
+          window.publicFunction.error(reject, this)
+        })
       }
     },
     mounted: function () {
       this.UBgStyle()
     },
     created: function () {
-      // 获取轻小说卷列表
-      const Volume = GetVolume(this)
-
-      Volume.then((resolve) => {
-        let sequence = -1
-        let index = -1
-        let list = []
-        resolve.data.data.content.forEach((data) => {
-          if (sequence !== data.volume.sequence) {
-            sequence = data.volume.sequence
-            index++
-            list.push({
-              title: '第' + this.$nzh.encodeS(data.volume.sequence) + '卷 ' + data.volume.name,
-              node: []
-            })
-          }
-          list[index].node.push({
-            id: data._id,
-            title: '第' + this.$nzh.encodeS(data.sequence) + '章 ' + data.name
-          })
-        })
-        this.list = list
-      }).catch((reject) => {
-        window.publicFunction.error(reject, this)
-      })
+      this.init()
+    },
+    watch: {
+      $route () {
+        this.init()
+      }
     }
   }
 </script>

@@ -138,7 +138,7 @@
       UBgStyle () {
         this.clientWidth = document.body.clientWidth
         const width = 1920
-        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1200 - this.clientWidth) / 2
+        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1920 - 1200) / 2
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
@@ -150,41 +150,46 @@
       },
       viewText (id) {
         this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + id)
+      },
+      init () {
+        this.book = {}
+        // 获取轻小说列表
+        GetFiction(this).then((resolve) => {
+          this.book = {
+            name: resolve.data.data.name,
+            author: resolve.data.data.author,
+            illustrator: resolve.data.data.illustrator,
+            introduction: resolve.data.data.introduction.replace(/\s+/g, ''),
+            imgSrc: window.config.upload + resolve.data.data.cover.path + resolve.data.data.cover.name,
+            file: resolve.data.data.file,
+            updateTime: this.$moment(resolve.data.data.updateTime).format('YYYY-MM-DD HH:mm'),
+            collect: '',
+            down: ''
+          }
+        }).catch((reject) => {
+          window.publicFunction.error(reject, this)
+        })
+
+        // 获取轻小说统计
+        GetStatistics(this).then((resolve) => {
+          this.book.collect = resolve.data.data.collect
+          this.book.down = resolve.data.data.down
+          this.book.click = resolve.data.data.click
+        }).catch((reject) => {
+          window.publicFunction.error(reject, this)
+        })
       }
     },
     mounted: function () {
       this.UBgStyle()
     },
     created: function () {
-      // 获取轻小说列表
-      const Fiction = GetFiction(this)
-
-      Fiction.then((resolve) => {
-        this.book = {
-          name: resolve.data.data.name,
-          author: resolve.data.data.author,
-          illustrator: resolve.data.data.illustrator,
-          introduction: resolve.data.data.introduction.replace(/\s+/g, ''),
-          imgSrc: window.config.upload + resolve.data.data.cover.path + resolve.data.data.cover.name,
-          file: resolve.data.data.file,
-          updateTime: this.$moment(resolve.data.data.updateTime).format('YYYY-MM-DD HH:mm'),
-          collect: '',
-          down: ''
-        }
-      }).catch((reject) => {
-        window.publicFunction.error(reject, this)
-      })
-
-      // 获取轻小说统计
-      const Statistics = GetStatistics(this)
-
-      Statistics.then((resolve) => {
-        this.book.collect = resolve.data.data.collect
-        this.book.down = resolve.data.data.down
-        this.book.click = resolve.data.data.click
-      }).catch((reject) => {
-        window.publicFunction.error(reject, this)
-      })
+      this.init()
+    },
+    watch: {
+      $route () {
+        this.init()
+      }
     }
   }
 </script>

@@ -1,9 +1,9 @@
 <template>
   <div class="g-mn">
-    <topHeader :topHeader="topHeader"></topHeader>
-    <navigation v-if="navigation.state !== 'none'"></navigation>
+    <topHeader></topHeader>
+    <navigation></navigation>
     <div class="g-bd">
-      <router-view @SetTopHeader="setTopHeader" @SetNavigation="setNavigation"></router-view>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -13,13 +13,6 @@
   export default {
     data () {
       return {
-        topHeader: {
-          state: 'auto',
-          height: 170
-        },
-        navigation: {
-          state: 'auto'
-        }
       }
     },
     components: {
@@ -27,12 +20,6 @@
       navigation: Navigation
     },
     methods: {
-      setTopHeader (msg) {
-        this.topHeader = msg
-      },
-      setNavigation (msg) {
-        this.navigation = msg
-      }
     },
     created: function () {
     }

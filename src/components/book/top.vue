@@ -68,6 +68,24 @@
       })
     })
   }
+  // 纪录点击
+  const SetClickRecords = (vue, id) => {
+    return new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/basis/statistics/click/book/' + id,
+        params: {},
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
   export default {
     name: 'bookTop',
     data () {
@@ -84,7 +102,7 @@
       UBgStyle () {
         this.clientWidth = document.body.clientWidth
         const width = 1920
-        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1200 - this.clientWidth) / 2
+        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1920 - 1200) / 2
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
@@ -101,6 +119,7 @@
       },
       to (id) {
         this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + id)
+        SetClickRecords(this, id)
       }
     },
     mounted: function () {

@@ -1,5 +1,5 @@
 <template>
-  <div class="m-box">
+  <div class="m-box" v-if="nav.state === 'auto'">
     <div class="u-bg"></div>
     <ul class="u-list">
       <li class="u-li" v-for="data in navList">
@@ -32,13 +32,40 @@
         }, {
           title: '游戏',
           path: '/'
-        }]
+        }],
+        state: {
+          none: []
+        },
+        nav: {
+          state: 'auto'
+        },
+        noneNav: {
+          state: 'none'
+        },
+        initNav: {
+          state: 'auto'
+        }
       }
     },
     components: {},
     methods: {
       toPath (path) {
         this.$router.push('/' + this.$route.params.lang + path)
+      },
+      init () {
+        this.state.none = ['/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + this.$route.params.chapterId]
+        this.nav = this.initNav
+        this.state.none.forEach(data => {
+          if (this.$route.path === data) this.nav = this.noneNav
+        })
+      }
+    },
+    created: function () {
+      this.init()
+    },
+    watch: {
+      $route () {
+        this.init()
       }
     }
   }

@@ -13,7 +13,7 @@
             <h4 class="u-h4" v-if="!data.active">{{data.name}}</h4>
             <p class="u-pop-s" v-if="!data.active">作者：<span>{{data.pop}}</span></p>
             <div class="u-img-gp" v-if="data.active">
-              <img class="u-img" :src="data.imgSrc">
+              <img class="u-img" :src="data.imgSrc" @click="to(data.id)">
             </div>
             <div class="u-fr" v-if="data.active">
               <h3 class="u-h3">{{data.name}}</h3>
@@ -68,6 +68,24 @@
       })
     })
   }
+  // 纪录点击
+  const SetClickRecords = (vue, id) => {
+    return new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/basis/statistics/click/book/' + id,
+        params: {},
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
   export default {
     name: 'ad',
     data () {
@@ -84,7 +102,7 @@
       UBgStyle () {
         this.clientWidth = document.body.clientWidth
         const width = 1920
-        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1200 - this.clientWidth) / 2
+        const offsetLeft = this.clientWidth > 1200 ? this.$el.offsetLeft + (width - this.clientWidth) / 2 : this.$el.offsetLeft + (1920 - 1200) / 2
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
@@ -98,35 +116,44 @@
             ...data
           }
         })
+      },
+      to (id) {
+        this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + id)
+        SetClickRecords(this, id)
+      },
+      init () {
+        this.list = []
+        // 获取榜单列表
+        GetAwesomeList(this).then((resolve) => {
+          resolve.data.data.content.forEach(data => {
+            this.list.push({
+              id: data.book._id,
+              active: false,
+              imgSrc: data.book.cover,
+              name: data.book.name,
+              tips: data.book.introduction.replace(/\s+/g, ''),
+              pop: data.book.author
+            })
+          })
+        }).then(() => {
+          this.list.forEach((data, index) => {
+            GetFile(this, data.imgSrc).then((resolve) => {
+              this.list[index].imgSrc = window.config.upload + resolve.data.data.path + resolve.data.data.name
+            }).catch((reject) => {
+              window.publicFunction.error(reject, this)
+            })
+          })
+          this.list[0].active = true
+        }).catch((reject) => {
+          window.publicFunction.error(reject, this)
+        })
       }
     },
     mounted: function () {
       this.UBgStyle()
     },
     created: function () {
-      // 获取榜单列表
-      GetAwesomeList(this).then((resolve) => {
-        resolve.data.data.content.forEach(data => {
-          this.list.push({
-            active: false,
-            imgSrc: data.book.cover,
-            name: data.book.name,
-            tips: data.book.introduction.replace(/\s+/g, ''),
-            pop: data.book.author
-          })
-        })
-      }).then(() => {
-        this.list.forEach((data, index) => {
-          GetFile(this, data.imgSrc).then((resolve) => {
-            this.list[index].imgSrc = window.config.upload + resolve.data.data.path + resolve.data.data.name
-          }).catch((reject) => {
-            window.publicFunction.error(reject, this)
-          })
-        })
-        this.list[0].active = true
-      }).catch((reject) => {
-        window.publicFunction.error(reject, this)
-      })
+      this.init()
     }
   }
 </script>
