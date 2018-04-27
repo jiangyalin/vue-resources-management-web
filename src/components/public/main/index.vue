@@ -1,8 +1,10 @@
 <template>
   <div class="g-mn">
-    <topHeader></topHeader>
-    <navigation></navigation>
-    <div class="g-bd">
+    <header class="g-hd">
+      <topHeader></topHeader>
+      <navigation></navigation>
+    </header>
+    <div class="g-bd" @scroll="scroll">
       <router-view></router-view>
     </div>
   </div>
@@ -20,6 +22,9 @@
       navigation: Navigation
     },
     methods: {
+      scroll (e) {
+        console.log('ppp', e.target.scrollTop)
+      }
     },
     created: function () {
     }
@@ -36,9 +41,19 @@
     background-position: center -10px;
     background-repeat: no-repeat;
   }
+  .g-hd{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 225px;
+  }
   .g-bd{
+    overflow: auto;
     margin: 0 auto;
+    padding-top: 225px;
     width: 1200px;
+    height: 100%;
+    box-sizing: border-box;
   }
 </style>
-

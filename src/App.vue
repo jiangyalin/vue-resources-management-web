@@ -20,7 +20,7 @@
   }
 </script>
 
-<style lang="sass">
+<style lang="scss">
   @import "style/app/app.scss";
   @import "style/public/public.scss";
 </style>
