@@ -17,3 +17,13 @@
 ::selection{
   background-color: #ebb31f;
 }
+
+//
+html,body{
+  width: 100%;
+  height: 100%;
+}
+#app,.g-mn{
+  overflow: auto;
+  height: 100%;
+}

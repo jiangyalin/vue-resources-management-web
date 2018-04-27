@@ -31,7 +31,6 @@
     width: 100%;
     min-width: 1200px;
     height: 100%;
-    min-height: 1400px;
     background-image: url("./../../../assets/images/public/bg-03.png");
     background-size: 1920px;
     background-position: center -10px;

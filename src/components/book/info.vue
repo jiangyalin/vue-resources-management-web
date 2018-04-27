@@ -163,7 +163,7 @@
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
-          backgroundPosition: -offsetLeft + 'px -' + offsetTop + 'px'
+          backgroundPosition: -offsetLeft + 'px ' + -offsetTop + 'px'
         }
       },
       down () {
@@ -187,15 +187,16 @@
             collect: '',
             down: ''
           }
-        }).catch((reject) => {
-          window.publicFunction.error(reject, this)
-        })
-
-        // 获取轻小说统计
-        GetStatistics(this).then((resolve) => {
-          this.book.collect = resolve.data.data.collect
-          this.book.down = resolve.data.data.down
-          this.book.click = resolve.data.data.click
+          return {}
+        }).then((resolve) => {
+          // 获取轻小说统计
+          GetStatistics(this).then((resolve) => {
+            this.book.collect = resolve.data.data.collect
+            this.book.down = resolve.data.data.down
+            this.book.click = resolve.data.data.click
+          }).catch((reject) => {
+            window.publicFunction.error(reject, this)
+          })
         }).catch((reject) => {
           window.publicFunction.error(reject, this)
         })

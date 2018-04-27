@@ -100,7 +100,7 @@
         const offsetTop = this.$el.offsetTop ? this.$el.offsetTop + 9 : 9
         this.uBgStyle = {
           backgroundSize: width + 'px',
-          backgroundPosition: -offsetLeft + 'px -' + offsetTop + 'px'
+          backgroundPosition: -offsetLeft + 'px ' + -offsetTop + 'px'
         }
       },
       to (path) {
