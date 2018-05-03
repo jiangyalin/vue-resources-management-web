@@ -1,6 +1,6 @@
 <template>
   <div class="m-box">
-    <img class="u-img" src="./../../assets/images/public/user/user-01.jpg">
+    <img class="u-img" src="../../../assets/images/public/user/user-01.jpg">
     <ul class="u-list">
       <li class="u-li" v-for="data in nav">
         <a class="u-a" href="javascript:void(0)">{{data.title}}</a>

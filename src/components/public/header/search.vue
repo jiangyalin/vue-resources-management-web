@@ -1,5 +1,5 @@
 <template>
-  <div class="m-box">
+  <div class="m-box-search">
     <div class="u-mn">
       <a class="u-top" href="javascript:void(0)">
         <i class="fa fa-bar-chart"></i>
@@ -15,7 +15,7 @@
 
 <script type="text/ecmascript-6">
   export default {
-    name: '',
+    name: 'search',
     data () {
       return {}
     },
@@ -25,7 +25,8 @@
 </script>
 
 <style scoped>
-  .m-box{
+  .m-box-search{
+    position: relative;
     width: 340px;
     height: 36px;
   }

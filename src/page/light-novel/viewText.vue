@@ -85,7 +85,7 @@
     width: 100%;
     height: 100%;
     border-radius: 5px;
-    background-color: hsla(0,0%,100%,.4);
+    background-color: rgba(255, 255, 255, .4);
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
   }
   .u-bg-after{

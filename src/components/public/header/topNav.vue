@@ -1,11 +1,12 @@
 <template>
   <div class="m-box">
-    <div class="u-bg"></div>
+    <div class="u-bgc" :style="bgc"></div>
+    <div class="u-bgi" :style="bgi"></div>
     <div class="u-mn">
       <div class="u-bd">
         <ul class="u-nav">
           <li class="u-li">
-            <img class="u-img" src="../../assets/images/public/logo/miku-01.png">
+            <img class="u-img" src="../../../assets/images/public/logo/miku-01.png">
           </li>
           <li class="u-li" v-for="data in list">
             <a class="u-a" href="javascript:void(0)" @click="to(data.path)">{{data.title}}</a>
@@ -35,18 +36,35 @@
         }, {
           title: 'A站',
           path: '/'
-        }]
+        }],
+        bgc: {},
+        bgi: {},
+        backgroundPositionY: -10
       }
     },
+    props: ['skin'],
     components: {
       navUser: NavUser
     },
     methods: {
       to (path) {
         this.$router.push(path)
+      },
+      init () {
+        this.bgc = {
+          backgroundColor: this.skin.bgc.backgroundColor,
+          boxShadow: this.skin.bgc.boxShadow
+        }
+        this.bgi = {
+          backgroundImage: this.skin.bgi.backgroundImage,
+          backgroundSize: this.skin.bgi.backgroundSize,
+          filter: this.skin.bgi.filter,
+          backgroundPosition: 'center ' + this.backgroundPositionY + 'px'
+        }
       }
     },
     created: function () {
+      this.init()
     }
   }
 </script>
@@ -57,28 +75,21 @@
     width: 100%;
     height: 42px;
   }
-  .u-bg{
+  .u-bgc{
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: hsla(0,0%,100%,.4);
-    box-shadow: 0 1px 2px rgba(0,0,0,.1);
   }
-  .u-bg:after{
+  .u-bgi{
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    content: '';
-    background-image: url("./../../assets/images/public/bg-03.png");
-    background-size: 1920px;
-    background-position: center -10px;
     background-repeat: no-repeat;
-    -webkit-filter: blur(4px);
-    filter: blur(4px);
+    transition: .5s .1s;
   }
   .u-mn{
     position: absolute;

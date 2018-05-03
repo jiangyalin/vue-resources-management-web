@@ -1,18 +1,22 @@
 <template>
-  <div class="m-box" :style="'height: ' + header.height + 'px'">
-    <topNav></topNav>
-    <div class="u-mn" v-if="header.state !== 'mini'">
-      <img class="u-logo" src="./../../assets/images/public/logo/logo-01.png">
-      <search class="m-search"></search>
+  <header class="g-hd" :style="'background-image: url(' + skin.img + ')'">
+    <div class="m-box" :style="'height: ' + header.height + 'px; opacity:' + header.opacity">
+      <topNav :skin="skin"></topNav>
+      <div class="u-mn" v-if="header.state !== 'mini'">
+        <img class="u-logo" src="../../../assets/images/public/logo/logo-01.png">
+        <search class="m-search"></search>
+      </div>
     </div>
-  </div>
+    <navigation :skin="skin"></navigation>
+  </header>
 </template>
 
 <script type="text/ecmascript-6">
+  import Navigation from './navigation.vue'
   import TopNav from './topNav.vue'
   import Search from './search.vue'
   export default {
-    name: 'topHeader',
+    name: '',
     data () {
       return {
         state: {
@@ -20,19 +24,24 @@
         },
         header: {
           state: 'auto',
-          height: 170
+          height: 170,
+          opacity: 1
         },
         miniHeader: {
           state: 'mini',
-          height: 42
+          height: 0,
+          opacity: 0
         },
         initHeader: {
           state: 'auto',
-          height: 170
+          height: 170,
+          opacity: 1
         }
       }
     },
+    props: ['skin'],
     components: {
+      navigation: Navigation,
       topNav: TopNav,
       search: Search
     },
@@ -57,8 +66,26 @@
 </script>
 
 <style scoped>
-  .m-box{
+  .g-hd{
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
     width: 100%;
+    min-width: 1200px;
+    background-image: url("./../../../assets/images/public/bg-03.png");
+    background-size: 1920px;
+    background-position: center -10px;
+    background-repeat: no-repeat;
+    transition: .5s;
+  }
+  .m-box{
+    overflow: hidden;
+    width: 100%;
+    height: 170px;
+    opacity: 1;
+    transition: .5s .1s;
   }
   .u-mn{
     display: flex;

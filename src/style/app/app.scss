@@ -24,6 +24,7 @@ html,body{
   height: 100%;
 }
 #app,.g-mn{
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   height: 100%;
 }
