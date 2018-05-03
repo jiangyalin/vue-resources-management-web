@@ -8,7 +8,7 @@
           <a class="u-a" href="javascript:void(0)" @click="toPath(data.path)">{{data.title}}</a>
         </li>
       </ul>
-      <search></search>
+      <search class="m-search" :style="'opacity: ' + opacity"></search>
     </div>
   </div>
 </template>
@@ -40,6 +40,7 @@
         }],
         bgc: {},
         bgi: {},
+        opacity: 0,
         state: {
           mini: []
         },
@@ -57,8 +58,12 @@
       init () {
         this.state.mini = ['/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + this.$route.params.chapterId]
         this.backgroundPositionY = -180
+        this.opacity = 0
         this.state.mini.forEach(data => {
-          if (this.$route.path === data) this.backgroundPositionY = -10
+          if (this.$route.path === data) {
+            this.backgroundPositionY = -10
+            this.opacity = 1
+          }
         })
         this.bgc = {
           backgroundColor: this.skin.bgc.backgroundColor,
@@ -70,7 +75,6 @@
           filter: this.skin.bgi.filter,
           backgroundPosition: 'center ' + this.backgroundPositionY + 'px'
         }
-        console.log(this.bgi)
       }
     },
     created: function () {
@@ -135,5 +139,8 @@
   }
   .u-a:hover{
     background-color: hsla(0, 0%, 100%, .3);
+  }
+  .m-search{
+    transition: .5s .1s;
   }
 </style>
