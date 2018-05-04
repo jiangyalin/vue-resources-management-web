@@ -1,5 +1,5 @@
 <template>
-  <div class="m-box">
+  <div class="m-navigation-box">
     <div class="u-bgc" :style="bgc"></div>
     <div class="u-bgi" :style="bgi"></div>
     <div class="u-mn">
@@ -9,14 +9,16 @@
         </li>
       </ul>
       <search class="m-search" :style="'opacity: ' + opacity"></search>
+      <previousPage class="m-previous-page" :skin="skin"></previousPage>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Search from './search.vue'
+  import PreviousPage from './previousPage.vue'
   export default {
-    name: '',
+    name: 'navigation',
     data () {
       return {
         navList: [{
@@ -49,7 +51,8 @@
     },
     props: ['skin'],
     components: {
-      search: Search
+      search: Search,
+      previousPage: PreviousPage
     },
     methods: {
       toPath (path) {
@@ -89,7 +92,7 @@
 </script>
 
 <style scoped>
-  .m-box{
+  .m-navigation-box{
     position: relative;
     width: 100%;
     height: 55px;
@@ -112,6 +115,7 @@
   }
   .u-mn{
     display: flex;
+    position: relative;
     margin: 0 auto;
     width: 1200px;
     height: 100%;
@@ -142,5 +146,8 @@
   }
   .m-search{
     transition: .5s .1s;
+  }
+  .m-previous-page{
+    transform: translate(65px, 75px);
   }
 </style>

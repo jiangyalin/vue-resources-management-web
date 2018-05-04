@@ -67,7 +67,6 @@
 
 <style scoped>
   .g-hd{
-    overflow: hidden;
     position: fixed;
     top: 0;
     left: 0;

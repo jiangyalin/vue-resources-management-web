@@ -22,8 +22,8 @@
         },
         miniMain: {
           state: 'mini',
-          height: 42,
-          top: 42
+          height: 55,
+          top: 55
         },
         initMain: {
           state: 'auto',
@@ -36,11 +36,11 @@
             boxShadow: 0 + ' ' + 1 + 'px ' + 2 + 'px' + ' rgba(' + 0 + ',' + 0 + ',' + 0 + ',' + 0.1 + ')'
           },
           bgi: {
-            backgroundImage: 'url(' + '"http://192.168.17.111:8088/skiin/bg-02.jpg"' + ')',
+            backgroundImage: 'url(' + '"http://192.168.17.111:8088/skiin/bg-03.png"' + ')',
             backgroundSize: 1920 + 'px',
             filter: 'blur(' + 4 + 'px)'
           },
-          img: 'http://192.168.17.111:8088/skiin/bg-02.jpg',
+          img: 'http://192.168.17.111:8088/skiin/bg-03.png',
           box: {
             opacity: 0.95
           },

@@ -266,6 +266,7 @@
     height: 120px;
     border: 1px solid rgba(255, 255, 255, .9);
     box-sizing: border-box;
+    cursor: pointer;
   }
   .u-li:nth-of-type(1) .u-img-gp:after{
     position: absolute;

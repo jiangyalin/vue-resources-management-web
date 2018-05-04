@@ -211,6 +211,7 @@
     height: 200px;
     border: 1px solid rgba(255, 255, 255, .9);
     box-sizing: border-box;
+    cursor: pointer;
   }
   .u-img{
     display: block;
