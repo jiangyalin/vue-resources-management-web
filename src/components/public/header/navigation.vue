@@ -79,7 +79,6 @@
             width: 340 + 'px',
             transition: 0.5 + 's ' + 0.1 + 's opacity'
           }
-          console.log(this.searchStyle)
         }
         this.bgc = {
           backgroundColor: this.skin.bgc.backgroundColor,
