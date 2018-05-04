@@ -1,13 +1,15 @@
 <template>
-  <div class="m-box-search">
-    <div class="u-mn">
-      <a class="u-top" href="javascript:void(0)">
-        <i class="fa fa-bar-chart"></i>
-        <p class="u-top-p">排行榜</p>
-      </a>
-      <div class="u-sch">
-        <input class="u-it" type="text">
-        <i class="fa fa-search"></i>
+  <div class="m-search-box">
+    <div class="m-search-mn">
+      <div class="u-mn">
+        <a class="u-top" href="javascript:void(0)">
+          <i class="fa fa-bar-chart"></i>
+          <p class="u-top-p">排行榜</p>
+        </a>
+        <div class="u-sch">
+          <input class="u-it" type="text">
+          <i class="fa fa-search"></i>
+        </div>
       </div>
     </div>
   </div>
@@ -25,7 +27,7 @@
 </script>
 
 <style scoped>
-  .m-box-search{
+  .m-search-mn{
     width: 340px;
     height: 36px;
   }

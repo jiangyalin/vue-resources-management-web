@@ -243,12 +243,6 @@
     line-height: 35px;
     color: rgba(255, 255, 255, .8);
   }
-  /*.u-li .u-img{*/
-    /*display: none;*/
-  /*}*/
-  /*.u-li .u-fr{*/
-    /*display: none;*/
-  /*}*/
   .u-li:nth-of-type(1) .u-idx{
     color: rgba(0, 0, 0, .8);
     background-color: rgba(249, 249, 249, 1);
@@ -357,15 +351,18 @@
   }
   .active .u-fr{
     padding-left: 10px;
-    flex: 1;
+    width: 190px;
   }
   .active .u-h3{
+    overflow: hidden;
     padding-bottom: 10px;
     height: 16px;
     font-size: 16px;
     font-weight: 500;
     line-height: 16px;
     color: rgba(255, 255, 255, .8);
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .active .u-tips{
     overflow: hidden;

@@ -8,7 +8,7 @@
           <a class="u-a" href="javascript:void(0)" @click="toPath(data.path)">{{data.title}}</a>
         </li>
       </ul>
-      <search class="m-search" :style="'opacity: ' + opacity"></search>
+      <search class="m-search" :style="searchStyle"></search>
       <previousPage class="m-previous-page" :skin="skin"></previousPage>
     </div>
   </div>
@@ -42,7 +42,9 @@
         }],
         bgc: {},
         bgi: {},
+        searchStyle: {},
         opacity: 0,
+        width: 340,
         state: {
           mini: []
         },
@@ -61,14 +63,23 @@
       init () {
         this.state.mini = ['/' + this.$route.params.lang + '/home', '/' + this.$route.params.lang + '/lightNovel']
         this.backgroundPositionY = -180
-        this.opacity = 0
+        this.searchStyle = {
+          opacity: 0,
+          width: 0,
+          transition: 0.5 + 's ' + 0.1 + 's opacity, 0s 0.6s width'
+        }
         let state = true
         this.state.mini.forEach(data => {
           if (this.$route.path === data) state = false
         })
         if (state) {
           this.backgroundPositionY = -10
-          this.opacity = 1
+          this.searchStyle = {
+            opacity: 1,
+            width: 340 + 'px',
+            transition: 0.5 + 's ' + 0.1 + 's opacity'
+          }
+          console.log(this.searchStyle)
         }
         this.bgc = {
           backgroundColor: this.skin.bgc.backgroundColor,
@@ -147,10 +158,12 @@
     background-color: hsla(0, 0%, 100%, .3);
   }
   .m-search{
+    overflow: hidden;
     position: absolute;
     top: 10px;
     right: 0;
-    transition: .5s .1s;
+    opacity: 0;
+    transition: .5s .1s opacity;
   }
   .m-previous-page{
     transform: translate(65px, 75px);

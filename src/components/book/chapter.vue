@@ -167,7 +167,6 @@
     font-weight: 500;
     line-height: 28px;
     color: rgba(255, 255, 255, .9);
-    /*border-bottom: 1px dashed rgba(255, 255, 255, .4);*/
   }
   .u-list{
     overflow: auto;
@@ -180,5 +179,8 @@
     width: 25%;
     border-bottom: 1px dashed rgba(255, 255, 255, .4);
     box-sizing: border-box;
+  }
+  .u-p{
+    cursor: pointer;
   }
 </style>
