@@ -1,7 +1,7 @@
 <template>
   <div class="m-box">
-    <div class="u-bg"></div>
-    <div class="u-bg-after" :style="uBgStyle"></div>
+    <div class="u-bg" :style="bg"></div>
+    <!--<div class="u-bg-after" :style="uBgStyle"></div>-->
     <div class="u-mn">
       <div class="u-tt">
         <h2 class="u-h2">最近更新</h2>
@@ -88,9 +88,11 @@
         offsetLeft: 0,
         offsetTop: 0,
         uBgStyle: {},
-        list: []
+        list: [],
+        bg: {}
       }
     },
+    props: ['skin'],
     components: {},
     methods: {
       UBgStyle () {
@@ -104,25 +106,27 @@
         }
       },
       to (path) {
-//        window.open(window.config.domainName + '#/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
         this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + path)
-
         SetClickRecords(this, path)
+      },
+      init () {
+        this.bg = {
+          backgroundColor: this.skin.box.backgroundColor
+        }
+        // 获取轻小说列表
+        GetFictionList(this).then((resolve) => {
+          const list = List(this, resolve)
+          this.list = list.tableData
+        }).catch((reject) => {
+          window.publicFunction.error(reject, this)
+        })
       }
     },
     mounted: function () {
       this.UBgStyle()
     },
     created: function () {
-      // 获取轻小说列表
-      const fictionList = GetFictionList(this)
-
-      fictionList.then((resolve) => {
-        const list = List(this, resolve)
-        this.list = list.tableData
-      }).catch((reject) => {
-        window.publicFunction.error(reject, this)
-      })
+      this.init()
     }
   }
 </script>
@@ -141,7 +145,6 @@
     width: 100%;
     height: 100%;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, .4);
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
   }
   .u-bg-after{
@@ -150,7 +153,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    content: '';
     border-radius: 5px;
     background-image: url("./../../assets/images/public/bg-03.png");
     background-size: 1920px;

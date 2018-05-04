@@ -1,8 +1,8 @@
 <template>
   <div class="g-mn" :style="'background-image: url(' + skin.img + ')'">
-    <top_header :skin="skin"></top_header>
-    <div class="g-bd" @scroll="scroll" :style="'padding-top: ' + main.top + 'px'">
-      <router-view></router-view>
+    <top_header :skin="skin" :headerState="header"></top_header>
+    <div class="g-bd" :style="'padding-top: ' + main.top + 'px'" v-scroll="scroll">
+      <router-view :skin="skin"></router-view>
     </div>
   </div>
 </template>
@@ -17,17 +17,14 @@
         },
         main: {
           state: 'auto',
-          height: 225,
           top: 225
         },
         miniMain: {
           state: 'mini',
-          height: 55,
           top: 55
         },
         initMain: {
           state: 'auto',
-          height: 225,
           top: 225
         },
         skin: {
@@ -36,18 +33,21 @@
             boxShadow: 0 + ' ' + 1 + 'px ' + 2 + 'px' + ' rgba(' + 0 + ',' + 0 + ',' + 0 + ',' + 0.1 + ')'
           },
           bgi: {
-            backgroundImage: 'url(' + '"http://192.168.17.111:8088/skiin/bg-03.png"' + ')',
+            backgroundImage: 'url(' + '"http://192.168.17.111:8088/skiin/bg-02.jpg"' + ')',
             backgroundSize: 1920 + 'px',
             filter: 'blur(' + 4 + 'px)'
           },
-          img: 'http://192.168.17.111:8088/skiin/bg-03.png',
+          img: 'http://192.168.17.111:8088/skiin/bg-02.jpg',
           box: {
-            opacity: 0.95
+            opacity: 0.95,
+            backgroundColor: 'rgba(' + 4 + ',' + 18 + ',' + 19 + ',' + 0.9 + ')'
           },
           font: {
             color: [255, 255, 255, 0.95]
           }
-        }
+        },
+        scrollTop: 0,
+        header: true
       }
     },
     components: {
@@ -56,15 +56,21 @@
     },
     methods: {
       init () {
-        this.state.mini = ['/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + this.$route.params.chapterId]
+        this.state.mini = ['/' + this.$route.params.lang + '/home', '/' + this.$route.params.lang + '/lightNovel']
         this.main = this.initMain
+        let state = true
         this.state.mini.forEach(data => {
-          if (this.$route.path === data) this.main = this.miniMain
+          if (this.$route.path === data) state = false
         })
+        if (state) this.main = this.miniMain
       },
       scroll (e) {
-        if (e.target.scrollTop > 225) this.main.height = 42
-        if (e.target.scrollTop <= 225) this.main.height = 225
+        if (e.target.scrollTop > this.scrollTop) {
+          if (e.target.scrollTop > 100) this.header = false
+        } else {
+          this.header = true
+        }
+        this.scrollTop = e.target.scrollTop
       }
     },
     created: function () {

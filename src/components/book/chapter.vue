@@ -1,7 +1,7 @@
 <template>
   <div class="m-box">
-    <div class="u-bg"></div>
-    <div class="u-bg-after" :style="uBgStyle"></div>
+    <div class="u-bg" :style="bg"></div>
+    <!--<div class="u-bg-after" :style="uBgStyle"></div>-->
     <div class="u-mn">
       <ul class="u-tt-list">
         <li class="u-tt-li" v-for="data in list">
@@ -47,9 +47,11 @@
         offsetLeft: 0,
         offsetTop: 0,
         uBgStyle: {},
-        list: []
+        list: [],
+        bg: {}
       }
     },
+    props: ['skin'],
     components: {},
     methods: {
       UBgStyle () {
@@ -66,6 +68,9 @@
         this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + id)
       },
       init () {
+        this.bg = {
+          backgroundColor: this.skin.box.backgroundColor
+        }
         this.list = []
         // 获取轻小说卷列表
         GetVolume(this).then((resolve) => {

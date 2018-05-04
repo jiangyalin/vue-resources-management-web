@@ -26,7 +26,6 @@
 
 <style scoped>
   .m-box-search{
-    position: relative;
     width: 340px;
     height: 36px;
   }

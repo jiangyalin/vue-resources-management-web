@@ -1,7 +1,6 @@
 import 'babel-polyfill'
 import Vue from 'vue'
 import router from './router'
-import ElementUI from 'element-ui'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueI18n from 'vue-i18n'
@@ -14,6 +13,7 @@ import publicFunction from './public'
 import moment from 'moment'
 import fullCalendar from 'vue-fullcalendar'
 import VueSession from 'vue-session'
+import vuescroll from 'vue-scroll'
 import nzh from 'nzh/cn'
 
 import 'element-ui/lib/theme-chalk/index.css'
@@ -25,7 +25,7 @@ Vue.use(VueI18n)
 Vue.component('full-calendar', fullCalendar)
 Vue.use(VueCookie)
 Vue.use(VueSession)
-Vue.use(ElementUI)
+Vue.use(vuescroll)
 Object.defineProperty(Vue.prototype, '$moment', { value: moment })
 Object.defineProperty(Vue.prototype, '$nzh', { value: nzh })
 

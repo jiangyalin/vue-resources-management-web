@@ -47,11 +47,13 @@
     },
     methods: {
       init () {
-        this.state.mini = ['/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + this.$route.params.chapterId]
+        this.state.mini = ['/' + this.$route.params.lang + '/home', '/' + this.$route.params.lang + '/lightNovel']
         this.header = this.initHeader
+        let state = true
         this.state.mini.forEach(data => {
-          if (this.$route.path === data) this.header = this.miniHeader
+          if (this.$route.path === data) state = false
         })
+        if (state) this.header = this.miniHeader
       }
     },
     created: function () {

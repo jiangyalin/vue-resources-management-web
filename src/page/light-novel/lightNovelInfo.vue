@@ -2,14 +2,14 @@
   <div class="m-box">
     <div class="m-top">
       <div class="u-info">
-        <bookInfo ref="bookInfo"></bookInfo>
+        <bookInfo ref="bookInfo" :skin="skin"></bookInfo>
       </div>
       <div class="u-rec">
-        <ad ref="bookAd"></ad>
+        <ad ref="bookAd" :skin="skin"></ad>
       </div>
     </div>
     <div class="u-chapter">
-      <chapter ref="bookChapter"></chapter>
+      <chapter ref="bookChapter" :skin="skin"></chapter>
     </div>
   </div>
 </template>
@@ -23,6 +23,7 @@
     data () {
       return {}
     },
+    props: ['skin'],
     components: {
       bookInfo: BookInfo,
       ad: Ad,

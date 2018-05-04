@@ -1,10 +1,10 @@
 <template>
   <div class="m-box">
     <div class="u-list">
-      <bookList ref="bookList"></bookList>
+      <bookList ref="bookList" :skin="skin"></bookList>
     </div>
     <div class="u-top">
-      <bookTop ref="bookTop"></bookTop>
+      <bookTop ref="bookTop" :skin="skin"></bookTop>
     </div>
   </div>
 </template>
@@ -17,6 +17,7 @@
     data () {
       return {}
     },
+    props: ['skin'],
     components: {
       bookList: BookList,
       bookTop: BookTop

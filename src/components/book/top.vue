@@ -1,7 +1,7 @@
 <template>
   <div class="m-box">
-    <div class="u-bg"></div>
-    <div class="u-bg-after" :style="uBgStyle"></div>
+    <div class="u-bg" :style="bg"></div>
+    <!--<div class="u-bg-after" :style="uBgStyle"></div>-->
     <div class="u-mn">
       <div class="u-tt">
         <h2 class="u-h2">排行榜</h2>
@@ -94,9 +94,11 @@
         offsetLeft: 0,
         offsetTop: 0,
         uBgStyle: {},
-        list: []
+        list: [],
+        bg: {}
       }
     },
+    props: ['skin'],
     components: {},
     methods: {
       UBgStyle () {
@@ -120,39 +122,43 @@
       to (id) {
         this.$router.push('/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + id)
         SetClickRecords(this, id)
+      },
+      init () {
+        this.bg = {
+          backgroundColor: this.skin.box.backgroundColor
+        }
+        // 获取轻小说列表
+        GetBookTop(this).then((resolve) => {
+          this.list = resolve.data.data.content.map(data => {
+            return {
+              id: data.book._id,
+              active: false,
+              imgSrc: data.book.cover,
+              name: data.book.name,
+              tips: data.book.introduction.replace(/\s+/g, ''),
+              pop: data.click
+            }
+          })
+          return {}
+        }).then(() => {
+          this.list.forEach((data, index) => {
+            GetFile(this, data.imgSrc).then((resolve) => {
+              this.list[index].imgSrc = window.config.upload + resolve.data.data.path + resolve.data.data.name
+            }).catch((reject) => {
+              window.publicFunction.error(reject, this)
+            })
+          })
+          this.list[0].active = true
+        }).catch((reject) => {
+          window.publicFunction.error(reject, this)
+        })
       }
     },
     mounted: function () {
       this.UBgStyle()
     },
     created: function () {
-      // 获取轻小说列表
-      const bookTop = GetBookTop(this)
-
-      bookTop.then((resolve) => {
-        this.list = resolve.data.data.content.map(data => {
-          return {
-            id: data.book._id,
-            active: false,
-            imgSrc: data.book.cover,
-            name: data.book.name,
-            tips: data.book.introduction.replace(/\s+/g, ''),
-            pop: data.click
-          }
-        })
-        return {}
-      }).then(() => {
-        this.list.forEach((data, index) => {
-          GetFile(this, data.imgSrc).then((resolve) => {
-            this.list[index].imgSrc = window.config.upload + resolve.data.data.path + resolve.data.data.name
-          }).catch((reject) => {
-            window.publicFunction.error(reject, this)
-          })
-        })
-        this.list[0].active = true
-      }).catch((reject) => {
-        window.publicFunction.error(reject, this)
-      })
+      this.init()
     }
   }
 </script>

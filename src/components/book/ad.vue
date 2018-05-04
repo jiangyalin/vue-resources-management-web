@@ -1,7 +1,7 @@
 <template>
   <div class="m-box">
-    <div class="u-bg"></div>
-    <div class="u-bg-after" :style="uBgStyle"></div>
+    <div class="u-bg" :style="bg"></div>
+    <!--<div class="u-bg-after" :style="uBgStyle"></div>-->
     <div class="u-mn">
       <div class="u-tt">
         <h2 class="u-h2">2018这本轻小说真厉害！</h2>
@@ -94,9 +94,11 @@
         offsetLeft: 0,
         offsetTop: 0,
         uBgStyle: {},
-        list: []
+        list: [],
+        bg: {}
       }
     },
+    props: ['skin'],
     components: {},
     methods: {
       UBgStyle () {
@@ -122,6 +124,9 @@
         SetClickRecords(this, id)
       },
       init () {
+        this.bg = {
+          backgroundColor: this.skin.box.backgroundColor
+        }
         this.list = []
         // 获取榜单列表
         GetAwesomeList(this).then((resolve) => {
@@ -172,7 +177,6 @@
     width: 100%;
     height: 100%;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, .4);
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
   }
   .u-bg-after{

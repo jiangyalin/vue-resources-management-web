@@ -59,15 +59,17 @@
         this.$router.push('/' + this.$route.params.lang + path)
       },
       init () {
-        this.state.mini = ['/' + this.$route.params.lang + '/lightNovel/lightNovelInfo/' + this.$route.params.lightNovelId + '/viewText/' + this.$route.params.chapterId]
+        this.state.mini = ['/' + this.$route.params.lang + '/home', '/' + this.$route.params.lang + '/lightNovel']
         this.backgroundPositionY = -180
         this.opacity = 0
+        let state = true
         this.state.mini.forEach(data => {
-          if (this.$route.path === data) {
-            this.backgroundPositionY = -10
-            this.opacity = 1
-          }
+          if (this.$route.path === data) state = false
         })
+        if (state) {
+          this.backgroundPositionY = -10
+          this.opacity = 1
+        }
         this.bgc = {
           backgroundColor: this.skin.bgc.backgroundColor,
           boxShadow: this.skin.bgc.boxShadow
@@ -145,6 +147,9 @@
     background-color: hsla(0, 0%, 100%, .3);
   }
   .m-search{
+    position: absolute;
+    top: 10px;
+    right: 0;
     transition: .5s .1s;
   }
   .m-previous-page{
