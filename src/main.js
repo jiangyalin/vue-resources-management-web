@@ -15,6 +15,7 @@ import fullCalendar from 'vue-fullcalendar'
 import VueSession from 'vue-session'
 import vuescroll from 'vue-scroll'
 import nzh from 'nzh/cn'
+import message from './assets/plugin/message'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
@@ -28,6 +29,7 @@ Vue.use(VueSession)
 Vue.use(vuescroll)
 Object.defineProperty(Vue.prototype, '$moment', { value: moment })
 Object.defineProperty(Vue.prototype, '$nzh', { value: nzh })
+Object.defineProperty(Vue.prototype, '$message', { value: message })
 
 Object.keys(locales).forEach(function (lang) {
   Vue.locale(lang, locales[lang])
