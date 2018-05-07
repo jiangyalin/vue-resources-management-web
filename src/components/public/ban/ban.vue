@@ -18,6 +18,27 @@
 </template>
 
 <script type="text/ecmascript-6">
+  // 获取Banner列表
+  const GetBannerList = vue => {
+    return new Promise((resolve, reject) => {
+      vue.$http({
+        method: 'get',
+        url: window.config.server + '/api/banner',
+        params: {
+          pageNum: 0,
+          pageSize: 3
+        },
+        headers: {
+          'languageCode': vue.$route.params.lang,
+          'Authorization': 'Bearer ' + vue.$cookie.get('token')
+        }
+      }).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  }
   export default {
     name: 'ban',
     data () {
@@ -28,19 +49,7 @@
         uBgStyle: {},
         uBanStyle: {},
         translateX: 0,
-        banList: [{
-          title: '初音未来2013魔法的未来演唱会1',
-          href: 'javascript:void(0)',
-          imgSrc: 'http://localhost:8088/books/1520246271349.jpg'
-        }, {
-          title: '初音未来2013魔法的未来演唱会2',
-          href: 'javascript:void(0)',
-          imgSrc: 'http://localhost:8088/books/1520246285835.jpg'
-        }, {
-          title: '初音未来2013魔法的未来演唱会3',
-          href: 'javascript:void(0)',
-          imgSrc: 'http://localhost:8088/books/1520246296788.jpg'
-        }]
+        banList: []
       }
     },
     components: {},
@@ -66,6 +75,18 @@
       }, 10000)
     },
     created: function () {
+      // 获取Banner列表
+      GetBannerList(this).then((resolve) => {
+        this.banList = resolve.data.data.content.map(data => {
+          return {
+            title: data.name,
+            href: 'javascript:void(0)',
+            imgSrc: window.config.upload + data.image.path + data.image.name
+          }
+        })
+      }).catch((reject) => {
+        window.publicFunction.error(reject, this)
+      })
     }
   }
 </script>
