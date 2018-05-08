@@ -1,7 +1,7 @@
 <template>
   <div class="m-box">
-    <div class="u-bg"></div>
-    <div class="u-bg-after" :style="uBgStyle"></div>
+    <div class="u-bg" :style="bg"></div>
+    <!--<div class="u-bg-after" :style="uBgStyle"></div>-->
     <div class="u-mn">
       <a class="u-a" :href="href">
         <img class="u-img" :src="imgSrc">
@@ -18,10 +18,11 @@
         clientWidth: 0,
         offsetLeft: 0,
         offsetTop: 0,
-        uBgStyle: {}
+        uBgStyle: {},
+        bg: {}
       }
     },
-    props: ['imgSrc', 'href'],
+    props: ['imgSrc', 'href', 'skin'],
     components: {},
     methods: {
       UBgStyle () {
@@ -39,6 +40,9 @@
       this.UBgStyle()
     },
     created: function () {
+      this.bg = {
+        backgroundColor: this.skin.box.backgroundColor
+      }
     }
   }
 </script>
@@ -86,6 +90,8 @@
   }
   .u-a{
     display: block;
+    width: 100%;
+    height: 100%;
   }
   .u-img{
     display: block;

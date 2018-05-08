@@ -1,7 +1,7 @@
 <template>
   <div class="m-box">
-    <div class="u-bg"></div>
-    <div class="u-bg-after" :style="uBgStyle"></div>
+    <div class="u-bg" :style="bg"></div>
+    <!--<div class="u-bg-after" :style="uBgStyle"></div>-->
     <div class="u-ban">
       <ul class="u-list" ref="ban" :style="uBanStyle">
         <li class="u-li" v-for="data in banList">
@@ -49,9 +49,11 @@
         uBgStyle: {},
         uBanStyle: {},
         translateX: 0,
-        banList: []
+        banList: [],
+        bg: {}
       }
     },
+    props: ['skin'],
     components: {},
     methods: {
       UBgStyle () {
@@ -75,6 +77,9 @@
       }, 10000)
     },
     created: function () {
+      this.bg = {
+        backgroundColor: this.skin.box.backgroundColor
+      }
       // 获取Banner列表
       GetBannerList(this).then((resolve) => {
         this.banList = resolve.data.data.content.map(data => {
@@ -105,7 +110,6 @@
     width: 100%;
     height: 100%;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, .4);
     box-shadow: 0 1px 2px rgba(0,0,0,.1);
   }
   .u-bg-after{

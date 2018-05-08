@@ -1,9 +1,9 @@
 <template>
   <div class="g-home-mn">
     <div class="m-rec">
-      <ban class="m-ban" ref="ban"></ban>
-      <recommend class="m-recommend" ref="recommend1" :href="recommendList[0].href" :imgSrc="recommendList[0].imgSrc"></recommend>
-      <recommend class="m-recommend" ref="recommend2" :href="recommendList[1].href" :imgSrc="recommendList[1].imgSrc"></recommend>
+      <ban class="m-ban" ref="ban" :skin="skin"></ban>
+      <recommend class="m-recommend" ref="recommend1" :href="recommendList[0].href" :imgSrc="recommendList[0].imgSrc" :skin="skin"></recommend>
+      <recommend class="m-recommend" ref="recommend2" :href="recommendList[1].href" :imgSrc="recommendList[1].imgSrc" :skin="skin"></recommend>
     </div>
   </div>
 </template>
@@ -15,13 +15,14 @@
       return {
         recommendList: [{
           href: 'javascript:void(0)',
-          imgSrc: 'http://localhost:8088/books/1520240687659.png'
+          imgSrc: 'http://192.168.17.111:8080/static/img/user-01.d66a612.jpg'
         }, {
           href: 'javascript:void(0)',
-          imgSrc: 'http://localhost:8088/books/1520241189319.png'
+          imgSrc: 'http://192.168.17.111:8080/static/img/user-01.d66a612.jpg'
         }]
       }
     },
+    props: ['skin'],
     components: {
       ban: Ban,
       recommend: Recommend
