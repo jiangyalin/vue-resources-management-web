@@ -1,5 +1,6 @@
 import home from './home'
 import lightNovel from './light-novel'
+import set from './set'
 import error from './../../components/error/404.vue'
 
 const operator = [
@@ -13,6 +14,7 @@ const operator = [
   },
   home,
   lightNovel,
+  set,
   {
     path: '*',
     component: error

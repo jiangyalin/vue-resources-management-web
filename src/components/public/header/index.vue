@@ -47,7 +47,7 @@
     },
     methods: {
       init () {
-        this.state.mini = ['/' + this.$route.params.lang + '/home', '/' + this.$route.params.lang + '/lightNovel']
+        this.state.mini = ['/' + this.$route.params.lang + '/home', '/' + this.$route.params.lang + '/lightNovel', '/' + this.$route.params.lang + '/set/skin']
         this.header = this.initHeader
         let state = true
         this.state.mini.forEach(data => {

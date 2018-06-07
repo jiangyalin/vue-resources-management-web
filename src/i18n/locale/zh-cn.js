@@ -1,4 +1,3 @@
-import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
 export default {
   message: {
     hello: '你好世界',
@@ -13,6 +12,5 @@ export default {
     view: '查看',
     edit: '编辑',
     delete: '删除'
-  },
-  ...zhLocale
+  }
 }

@@ -3,10 +3,7 @@
     <img class="u-img" src="../../../assets/images/public/user/user-01.jpg">
     <ul class="u-list">
       <li class="u-li" v-for="data in nav">
-        <a class="u-a" href="javascript:void(0)">{{data.title}}</a>
-      </li>
-      <li class="u-li">
-        <a class="u-a" href="javascript:void(0)">皮肤</a>
+        <p class="u-a" @click="toPath(data.href)">{{data.title}}</p>
       </li>
     </ul>
   </div>
@@ -18,16 +15,26 @@
     data () {
       return {
         nav: [{
-          title: '消息'
+          title: '消息',
+          href: '/'
         }, {
-          title: '收藏'
+          title: '收藏',
+          href: '/'
         }, {
-          title: '历史'
+          title: '历史',
+          href: '/'
+        }, {
+          title: '皮肤',
+          href: '/set/skin'
         }]
       }
     },
     components: {},
-    methods: {}
+    methods: {
+      toPath (path) {
+        this.$router.push('/' + this.$route.params.lang + path)
+      }
+    }
   }
 </script>
 
@@ -60,6 +67,7 @@
     line-height: 42px;
     opacity: .9;
     transition: .3s;
+    cursor: pointer;
   }
   .u-a:hover{
     background-color: hsla(0, 0%, 100%, .3);

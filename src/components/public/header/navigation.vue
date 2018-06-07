@@ -61,7 +61,7 @@
         this.$router.push('/' + this.$route.params.lang + path)
       },
       init () {
-        this.state.mini = ['/' + this.$route.params.lang + '/home', '/' + this.$route.params.lang + '/lightNovel']
+        this.state.mini = ['/' + this.$route.params.lang + '/home', '/' + this.$route.params.lang + '/lightNovel', '/' + this.$route.params.lang + '/set/skin']
         this.backgroundPositionY = -180
         this.searchStyle = {
           opacity: 0,

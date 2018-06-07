@@ -1,4 +1,3 @@
-import deLocale from 'element-ui/lib/locale/lang/de'
 export default {
   message: {
     hello: 'hello world',
@@ -13,6 +12,5 @@ export default {
     view: 'view',
     edit: 'edit',
     delete: 'delete'
-  },
-  ...deLocale
+  }
 }

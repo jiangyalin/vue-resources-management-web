@@ -74,7 +74,7 @@
         this.uBanStyle = {
           transform: 'translateX(' + this.translateX + 'px)'
         }
-      }, 10000)
+      }, 15000)
     },
     created: function () {
       this.bg = {

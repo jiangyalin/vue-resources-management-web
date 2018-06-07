@@ -42,7 +42,7 @@
   }
   // 获取轻小说列表
   const GetFictionList = vue => {
-    const fiction = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       vue.$http({
         method: 'get',
         url: window.config.server + '/api/lightNovel/fiction',
@@ -60,7 +60,6 @@
         reject(error)
       })
     })
-    return fiction
   }
   // 纪录点击
   const SetClickRecords = (vue, id) => {

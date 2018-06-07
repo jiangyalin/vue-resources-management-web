@@ -1,4 +1,3 @@
-import jaLocale from 'element-ui/lib/locale/lang/ja'
 export default {
   message: {
     hello: 'こんにちは、世界',
@@ -13,6 +12,5 @@ export default {
     view: 'ビュー',
     edit: '編集',
     delete: '削除'
-  },
-  ...jaLocale
+  }
 }
